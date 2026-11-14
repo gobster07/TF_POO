@@ -1,4 +1,6 @@
-public class AreaOperacao {
+import java.io.Serializable;
+
+public class AreaOperacao implements Serializable {
     private String id;
     private String nome;
     private String localizacao;

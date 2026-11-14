@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.List;
 import java.util.Queue;
 
-public class CentralResgate {
+public class CentralResgate implements Serializable {
     private String nome;
     private List<Robo> robos;
     private List<AreaOperacao> areas;

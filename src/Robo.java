@@ -1,3 +1,4 @@
+import java.util.Scanner;
 public abstract class Robo implements Comunicavel {
     private String id;
     private String nome;
@@ -16,22 +17,32 @@ public abstract class Robo implements Comunicavel {
     public Robo(){
         this.id = null;
         this.nome = null;
-        this.bateria = 0;
+        this.bateria = 100;
         this.status = StatusRobo.DISPONIVEL;
         this.missoesRealizadas = 0;
     }
 
+    public abstract void carregar();
+
     public abstract void executaMissao();
 
-    @Override
-    public void enviarMensagem(String mensagem) {
-        System.out.println("Robo " + id + " (" + nome + ") enviou para a central: " + mensagem);
+    public void cadastraRobo(Scanner in){
+        try {
+            System.out.println("Digite o id do robo");
+            this.id = in.nextLine();
+            System.out.println("Digite o nome do robo: ");
+            this.nome = in.nextLine();
+        } catch (Exception e){
+            System.out.println("Erro ao cadastrar robo");
+        }
+
     }
 
     @Override
-    public void receberMensagem(String mensagem) {
-        System.out.println("Robo " + id + " (" + nome + ") recebeu da central: " + mensagem);
-    }
+    public abstract void enviarMensagem(String mensagem);
+
+    @Override
+    public abstract void receberMensagem(String mensagem);
 
     public String getId() {
         return id;

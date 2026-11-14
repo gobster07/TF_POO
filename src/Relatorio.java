@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Relatorio {
+public class Relatorio implements Serializable {
     private LocalDateTime dataGeracao;
     private int totalRobos;
     private int totalMissoes;
