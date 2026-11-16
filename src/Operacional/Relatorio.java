@@ -103,4 +103,11 @@ public class Relatorio implements Serializable {
                 + "Robô responsável: " + robo + "\n"
                 + "Resultado: " + resultado + "\n";
     }
+    public void salvarEmArquivo(Missao missao) throws IOException {
+        Salvamento salvamento = new Salvamento();
+        salvamento.gravarRelatorio(
+                "relatorio_missao_" + missao.getId() + ".txt",
+                gerarResumo(missao)
+        );
+    }
 }
