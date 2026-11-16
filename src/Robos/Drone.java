@@ -8,11 +8,11 @@ import java.io.Serializable;
 import java.util.Scanner;
 
 public class Drone extends Robo implements Comunicavel, Serializable {
-    private float altitudeMaxima;
-
+    private double altitudeMaxima;
     private boolean thermal;
+    private double consumo = 2.5;
 
-    public Drone(String id, String nome, int bateria, StatusRobo status, float altitudeMaxima, boolean thermal) {
+    public Drone(String id, String nome, int bateria, StatusRobo status, double altitudeMaxima, boolean thermal) {
         super(id, nome, bateria, status);
         this.altitudeMaxima = altitudeMaxima;
         this.thermal = thermal;
@@ -28,7 +28,7 @@ public class Drone extends Robo implements Comunicavel, Serializable {
         super.setBateria(100);
     }
 
-    public float getAltitudeMaxima() {
+    public double getAltitudeMaxima() {
         return altitudeMaxima;
     }
 

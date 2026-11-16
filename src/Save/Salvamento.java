@@ -9,11 +9,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Salvamento {
     private static final Path CAMINHO_AREAS = Path.of("src", "saves", "areas.dat");
+    private static final Path CAMINHO_ROBOT = Path.of("src", "saves", "robots.dat");
+    private static final Path CAMINHO_DRONE = Path.of("src", "saves", "drones.dat");
 
     public void gravarAreas(List<AreaOperacao> areas) throws IOException {
         Files.createDirectories(CAMINHO_AREAS.getParent());
@@ -22,21 +25,10 @@ public class Salvamento {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public List<AreaOperacao> carregarAreas() throws IOException, ClassNotFoundException {
         try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(CAMINHO_AREAS.toFile()))) {
-            Object objeto = entrada.readObject();
-            if (!(objeto instanceof List<?>)) {
-                throw new IOException("O arquivo nao contem uma lista de areas.");
-            }
-
-            List<AreaOperacao> areas = new ArrayList<>();
-            for (Object item : (List<?>) objeto) {
-                if (!(item instanceof AreaOperacao)) {
-                    throw new IOException("O arquivo contem um item que nao e uma area.");
-                }
-                areas.add((AreaOperacao) item);
-            }
-            return areas;
+            return (List<AreaOperacao>) entrada.readObject();
         }
     }
 }

@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 public class RoboTerrestre extends Robo implements Comunicavel, Serializable {
     private boolean bouyancy;
+    private double capacidadeCarga;
 
-    private float capacidadeCarga;
 
     public RoboTerrestre() {
         super();
@@ -16,7 +16,7 @@ public class RoboTerrestre extends Robo implements Comunicavel, Serializable {
         capacidadeCarga = 0;
     }
 
-    public RoboTerrestre(String id, String nome, int bateria, StatusRobo status, float capacidadeCarga, boolean bouyancy) {
+    public RoboTerrestre(String id, String nome, int bateria, StatusRobo status, double capacidadeCarga, boolean bouyancy) {
         super(id, nome, bateria, status);
         this.bouyancy = bouyancy;
     }
@@ -26,7 +26,7 @@ public class RoboTerrestre extends Robo implements Comunicavel, Serializable {
     }
 
 
-    public float getCapacidadeCarga() {
+    public double getCapacidadeCarga() {
         return capacidadeCarga;
     }
 
