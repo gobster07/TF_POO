@@ -3,6 +3,8 @@ package Operacional;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import Save.Salvamento;
+import java.io.IOException;
 
 public class Relatorio implements Serializable {
     private LocalDateTime dataGeracao;
@@ -59,5 +61,9 @@ public class Relatorio implements Serializable {
                 + "Total de missões: " + getTotalMissoes() + "\n"
                 + "Missões concluídas: " + getMissoesConcluidas() + "\n"
                 + "Missões pendentes: " + getMissoesPendentes() + "\n";
+    }
+    public void salvarEmArquivo() throws IOException {
+        Salvamento salvamento = new Salvamento();
+        salvamento.gravarRelatorio("relatorio_central.txt", gerarResumo());
     }
 }
