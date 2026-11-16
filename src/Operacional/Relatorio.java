@@ -2,6 +2,7 @@ package Operacional;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Relatorio implements Serializable {
     private LocalDateTime dataGeracao;
@@ -48,5 +49,15 @@ public class Relatorio implements Serializable {
 
     public void setMissoesPendentes(int missoesPendentes) {
         this.missoesPendentes = missoesPendentes;
+    }
+    public String gerarResumo() {
+        setDataGeracao(LocalDateTime.now());
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return "Resumo da atuação da central\n"
+                + "Data de geração: " + getDataGeracao().format(formato) + "\n"
+                + "Total de robôs: " + getTotalRobos() + "\n"
+                + "Total de missões: " + getTotalMissoes() + "\n"
+                + "Missões concluídas: " + getMissoesConcluidas() + "\n"
+                + "Missões pendentes: " + getMissoesPendentes() + "\n";
     }
 }
