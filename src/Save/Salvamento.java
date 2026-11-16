@@ -31,4 +31,10 @@ public class Salvamento {
             return (List<AreaOperacao>) entrada.readObject();
         }
     }
+    public void gravarRelatorio(String nomeArquivo, String conteudo) throws IOException {
+        Path caminho = Path.of("src", "saves", nomeArquivo);
+
+        Files.createDirectories(caminho.getParent());
+        Files.writeString(caminho, conteudo);
+    }
 }
