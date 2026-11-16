@@ -1,4 +1,11 @@
-public class Missao {
+package Operacional;
+
+import Area.AreaOperacao;
+import Enum.*;
+import Robos.Robo;
+import java.io.Serializable;
+
+public class Missao implements Serializable {
     private String id;
     private String descricao;
     private String tipo;
@@ -7,6 +14,8 @@ public class Missao {
     private StatusMissao status;
     private Robo roboResponsavel;
     private String resultado;
+
+
 
     public String getId() {
         return id;

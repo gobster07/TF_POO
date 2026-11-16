@@ -1,12 +1,18 @@
+package Robos;
+
+import Enum.*;
+import interfaces.*;
+
+import java.io.Serializable;
 import java.util.Scanner;
-public abstract class Robo implements Comunicavel {
+public abstract class Robo implements Comunicavel, Serializable {
     private String id;
     private String nome;
-    private float bateria;
+    private int bateria;
     private StatusRobo status;
     private int missoesRealizadas;
 
-    public Robo(String id, String nome, float bateria, StatusRobo status) {
+    public Robo(String id, String nome, int bateria, StatusRobo status) {
         this.id = id;
         this.nome = nome;
         this.bateria = bateria;
@@ -60,11 +66,11 @@ public abstract class Robo implements Comunicavel {
         this.nome = nome;
     }
 
-    public float getBateria() {
+    public int getBateria() {
         return bateria;
     }
 
-    public void setBateria(float bateria) {
+    public void setBateria(int bateria) {
         this.bateria = bateria;
     }
 

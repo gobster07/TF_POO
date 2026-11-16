@@ -1,3 +1,8 @@
+package Robos;
+
+import Enum.StatusRobo;
+import interfaces.Comunicavel;
+
 import java.io.Serializable;
 
 public class RoboTerrestre extends Robo implements Comunicavel, Serializable {
@@ -11,7 +16,7 @@ public class RoboTerrestre extends Robo implements Comunicavel, Serializable {
         capacidadeCarga = 0;
     }
 
-    public RoboTerrestre(String id, String nome, float bateria, StatusRobo status,float capacidadeCarga, boolean bouyancy) {
+    public RoboTerrestre(String id, String nome, int bateria, StatusRobo status, float capacidadeCarga, boolean bouyancy) {
         super(id, nome, bateria, status);
         this.bouyancy = bouyancy;
     }

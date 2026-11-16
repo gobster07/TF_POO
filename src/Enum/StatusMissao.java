@@ -1,3 +1,5 @@
+package Enum;
+
 public enum StatusMissao {
     PENDENTE,
     EM_ANDAMENTO,

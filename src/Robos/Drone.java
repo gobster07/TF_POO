@@ -1,3 +1,9 @@
+package Robos;
+
+import Enum.*;
+
+import interfaces.*;
+
 import java.io.Serializable;
 import java.util.Scanner;
 
@@ -6,7 +12,7 @@ public class Drone extends Robo implements Comunicavel, Serializable {
 
     private boolean thermal;
 
-    public Drone(String id, String nome, float bateria, StatusRobo status, float altitudeMaxima,boolean thermal) {
+    public Drone(String id, String nome, int bateria, StatusRobo status, float altitudeMaxima, boolean thermal) {
         super(id, nome, bateria, status);
         this.altitudeMaxima = altitudeMaxima;
         this.thermal = thermal;
@@ -38,7 +44,7 @@ public class Drone extends Robo implements Comunicavel, Serializable {
             this.altitudeMaxima = in.nextFloat();
             System.out.println("O Drone possui camera termal?");
             System.out.println("1 - Sim");
-            System.out.println("2 - Nao");
+            System.out.println("0 - Nao");
             this.thermal = in.nextBoolean();
         } catch (Exception e){
             System.out.println("Erro ao cadastrar robo");
@@ -47,6 +53,7 @@ public class Drone extends Robo implements Comunicavel, Serializable {
 
     @Override
     public void executaMissao() {
+        System.out.println("Qual o id da missão?");
     }
 
     @Override
