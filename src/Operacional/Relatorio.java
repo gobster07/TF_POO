@@ -119,4 +119,11 @@ public class Relatorio implements Serializable {
         }
         return resumo;
     }
+    public void salvarEmArquivo(List<Missao> missoes) throws IOException {
+        Salvamento salvamento = new Salvamento();
+        salvamento.gravarRelatorio(
+                "relatorios_missoes.txt",
+                gerarResumo(missoes)
+        );
+    }
 }
