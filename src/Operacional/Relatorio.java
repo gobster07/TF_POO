@@ -66,4 +66,41 @@ public class Relatorio implements Serializable {
         Salvamento salvamento = new Salvamento();
         salvamento.gravarRelatorio("relatorio_central.txt", gerarResumo());
     }
+
+    public String gerarResumo(Missao missao) {
+        setDataGeracao(LocalDateTime.now());
+
+        String area;
+        if (missao.getArea() == null) {
+            area = "Não informada";
+        } else {
+            area = missao.getArea().getNome();
+        }
+
+        String robo;
+        if (missao.getRoboResponsavel() == null) {
+            robo = "Não atribuído";
+        } else {
+            robo = missao.getRoboResponsavel().getNome();
+        }
+
+        String resultado;
+        if (missao.getResultado() == null) {
+            resultado = "Não informado";
+        } else {
+            resultado = missao.getResultado();
+        }
+
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return "Relatório da missão\n"
+                + "Data de geração: " + getDataGeracao().format(formato) + "\n"
+                + "ID: " + missao.getId() + "\n"
+                + "Descrição: " + missao.getDescricao() + "\n"
+                + "Tipo: " + missao.getTipo() + "\n"
+                + "Área: " + area + "\n"
+                + "Prioridade: " + missao.getPrioridade() + "\n"
+                + "Status: " + missao.getStatus() + "\n"
+                + "Robô responsável: " + robo + "\n"
+                + "Resultado: " + resultado + "\n";
+    }
 }
