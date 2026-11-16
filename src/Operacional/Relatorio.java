@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import Save.Salvamento;
 import java.io.IOException;
+import java.util.List;
 
 public class Relatorio implements Serializable {
     private LocalDateTime dataGeracao;
@@ -109,5 +110,13 @@ public class Relatorio implements Serializable {
                 "relatorio_missao_" + missao.getId() + ".txt",
                 gerarResumo(missao)
         );
+    }
+    public String gerarResumo(List<Missao> missoes) {
+        String resumo = "";
+        for (Missao missao : missoes) {
+            resumo = resumo + gerarResumo(missao);
+            resumo = resumo + "\n--------------------\n\n";
+        }
+        return resumo;
     }
 }
