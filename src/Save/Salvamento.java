@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Salvamento {
-    private static final Path CAMINHO_AREAS = Path.of("src", "saves", "areas.dat");
-    private static final Path CAMINHO_ROBOT = Path.of("src", "saves", "robots.dat");
-    private static final Path CAMINHO_DRONE = Path.of("src", "saves", "drones.dat");
+    private static final Path CAMINHO_AREAS = Path.of("src", "Saves", "areas.dat");
+    private static final Path CAMINHO_ROBOT = Path.of("src", "Saves", "robots.dat");
+    private static final Path CAMINHO_DRONE = Path.of("src", "Saves", "drones.dat");
 
     public void gravarAreas(List<AreaOperacao> areas) throws IOException {
         Files.createDirectories(CAMINHO_AREAS.getParent());
@@ -32,7 +32,7 @@ public class Salvamento {
         }
     }
     public void gravarRelatorio(String nomeArquivo, String conteudo) throws IOException {
-        Path caminho = Path.of("src", "saves", nomeArquivo);
+        Path caminho = Path.of("src", "Saves", nomeArquivo);
 
         Files.createDirectories(caminho.getParent());
         Files.writeString(caminho, conteudo);
