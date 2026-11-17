@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Missao implements Serializable {
     private String id;
     private String descricao;
-    private String tipo;
+    private TipoMissao tipo;
     private AreaOperacao area;
     private int prioridade;
     private StatusMissao status;
@@ -29,12 +29,13 @@ public class Missao implements Serializable {
                 throw new IllegalArgumentException("O robo nao esta disponivel.");
             }
 
-            // Verifica as restricoes implementadas na subclasse.
             robo.executaMissao(this);
 
-            this.roboResponsavel = robo;
-            this.status = StatusMissao.EM_ANDAMENTO;
-            robo.setStatus(StatusRobo.EM_MISSAO);
+            if (this.status != StatusMissao.CONCLUIDA) {
+                this.roboResponsavel = robo;
+                this.status = StatusMissao.EM_ANDAMENTO;
+                robo.setStatus(StatusRobo.EM_MISSAO);
+            }
 
         } catch (IllegalArgumentException e) {
             System.out.println("Erro ao executar missao: " + e.getMessage());
@@ -68,8 +69,8 @@ public class Missao implements Serializable {
 
             System.out.println("Digite a descricao da missao:");
             String novaDescricao = in.nextLine();
-            System.out.println("Digite o tipo da missao:");
-            String novoTipo = in.nextLine();
+            System.out.println("Digite o tipo da missao: RECONHECIMENTO, LOCALIZACAO_DE_PESSOAS ou TRANSPORTE_DE_SUPRIMENTOS");
+            TipoMissao novoTipo = TipoMissao.valueOf(in.nextLine().trim());
             System.out.println("Digite a prioridade da missao (numero inteiro):");
             int novaPrioridade = Integer.parseInt(in.nextLine().trim());
 
@@ -107,6 +108,7 @@ public class Missao implements Serializable {
         }
     }
 
+
     public String getId() {
         return id;
     }
@@ -123,11 +125,11 @@ public class Missao implements Serializable {
         this.descricao = descricao;
     }
 
-    public String getTipo() {
+    public TipoMissao getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoMissao tipo) {
         this.tipo = tipo;
     }
 

@@ -65,8 +65,31 @@ public class Drone extends Robo implements Comunicavel, Serializable {
         if (missao.getArea().getHorario() == Horario.NOITE && !thermal) {
             throw new IllegalArgumentException("Missoes noturnas exigem um drone com camera termal.");
         }
-        if (missao.getArea().getAltitude() > altitudeMaxima + 50) {
+        if (missao.getStatus() != StatusMissao.PENDENTE) {
+            throw new IllegalArgumentException("A missao precisa estar pendente.");
+        }
+        if (getStatus() != StatusRobo.DISPONIVEL) {
+            throw new IllegalArgumentException("O drone nao esta disponivel.");
+        }
+        if (getBateria() <= 0) {
+            throw new IllegalArgumentException("O drone precisa de bateria para iniciar a missao.");
+        }
+        if (missao.getRoboResponsavel() != null && missao.getRoboResponsavel() != this) {
+            throw new IllegalArgumentException("A missao ja esta atribuida a outro robo.");
+        }
+        double altitude = missao.getArea().getAltitude();
+        if (!Double.isFinite(altitude) || altitude < 0
+                || !Double.isFinite(altitudeMaxima) || altitudeMaxima < 0) {
+            throw new IllegalArgumentException("As altitudes devem ser numeros finitos e nao negativos.");
+        }
+        if (altitude > altitudeMaxima + 50) {
             throw new IllegalArgumentException("Missão em terreno alto demais para o drone.");
+        }
+        if (missao.getTipo() == null) {
+            throw new IllegalArgumentException("A missao precisa de um tipo definido.");
+        }
+        if (missao.getTipo() == TipoMissao.TRANSPORTE_DE_SUPRIMENTOS){
+            throw new IllegalArgumentException("Drones não podem carregar suprimentos");
         }
     }
 
