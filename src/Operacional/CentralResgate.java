@@ -4,8 +4,12 @@ import Area.AreaOperacao;
 import Robos.Robo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import Enum.StatusMissao;
 
 public class CentralResgate implements Serializable {
     private String nome;
@@ -13,6 +17,32 @@ public class CentralResgate implements Serializable {
     private List<AreaOperacao> areas;
     private List<Missao> missoes;
     private Queue<Missao> missoesPendentes;
+
+    public CentralResgate() {
+        this.robos = new ArrayList<>();
+        this.areas = new ArrayList<>();
+        this.missoes = new ArrayList<>();
+        this.missoesPendentes = new LinkedList<>();
+    }
+
+    public void registrarMissao(Missao missao) {
+        if (missao == null) {
+            throw new IllegalArgumentException("A missão não pode ser nula.");
+        }
+        if (missao.getId() == null || missao.getId().isBlank()) {
+            throw new IllegalArgumentException("A missão precisa de um identificador.");
+        }
+        if (missao.getArea() == null) {
+            throw new IllegalArgumentException("A missão precisa estar associada a uma área.");
+        }
+        if (missoes.stream().anyMatch(m -> missao.getId().equals(m.getId()))) {
+            throw new IllegalArgumentException("Já existe uma missão com o ID " + missao.getId() + ".");
+        }
+
+        missao.setStatus(StatusMissao.PENDENTE);
+        missoes.add(missao);
+        missoesPendentes.add(missao);
+    }
 
     public String getNome() {
         return nome;
