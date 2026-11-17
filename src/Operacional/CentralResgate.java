@@ -1,15 +1,16 @@
 package Operacional;
 
 import Area.AreaOperacao;
+import Robos.Drone;
 import Robos.Robo;
+import Robos.RoboTerrestre;
+import Save.Salvamento;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
-import Enum.StatusMissao;
 
 public class CentralResgate implements Serializable {
     private String nome;
@@ -19,30 +20,122 @@ public class CentralResgate implements Serializable {
     private Queue<Missao> missoesPendentes;
 
     public CentralResgate() {
-        this.robos = new ArrayList<>();
-        this.areas = new ArrayList<>();
-        this.missoes = new ArrayList<>();
-        this.missoesPendentes = new LinkedList<>();
+        this.nome = "Central Resgate";
+        robos = new ArrayList<>();
+        areas = new ArrayList<>();
+        missoes = new ArrayList<>();
+        missoesPendentes = new LinkedList<>();
+        load();
     }
 
-    public void registrarMissao(Missao missao) {
-        if (missao == null) {
-            throw new IllegalArgumentException("A missão não pode ser nula.");
+    public void load(){
+        try {
+            Salvamento salvamento = new Salvamento();
+            CentralResgate centralSalva = salvamento.carregarCentral();
+            this.nome = centralSalva.getNome();
+            this.robos = centralSalva.getRobos();
+            this.areas = centralSalva.getAreas();
+            this.missoes = centralSalva.getMissoes();
+            this.missoesPendentes = centralSalva.getMissoesPendentes();
+            System.out.println("Dados carregados com sucesso.");
+        } catch (FileNotFoundException e) {
+            System.out.println("Nenhum salvamento encontrado.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erro ao carregar os dados: " + e.getMessage());
         }
-        if (missao.getId() == null || missao.getId().isBlank()) {
-            throw new IllegalArgumentException("A missão precisa de um identificador.");
-        }
-        if (missao.getArea() == null) {
-            throw new IllegalArgumentException("A missão precisa estar associada a uma área.");
-        }
-        if (missoes.stream().anyMatch(m -> missao.getId().equals(m.getId()))) {
-            throw new IllegalArgumentException("Já existe uma missão com o ID " + missao.getId() + ".");
+    }
+
+    public void cadastroMissao(){
+        Missao missao = new Missao();
+        missao.registrarMissao(new Scanner(System.in),this);
+    }
+
+    public void cadastroRobo(Scanner in){
+        try {
+            System.out.println("Qual tipo de robo gostaria de cadastrar");
+            System.out.println("1 - Drone");
+            System.out.println("2 - Robo Terresetre");
+            int opcao = in.nextInt();
+            in.nextLine();
+            switch (opcao) {
+                case 1:
+                    Drone drone = new Drone();
+                    drone.cadastraRobo(in);
+                    this.robos.add(drone);
+                    break;
+                case 2:
+                    RoboTerrestre roboTerrestre = new RoboTerrestre();
+                    roboTerrestre.cadastraRobo(in);
+                    this.robos.add(roboTerrestre);
+                    break;
+                case 0:
+                    break;
+            }
+        } catch (Exception e){
+            System.out.println("Erro ao cadastrar robo: " + e.getMessage());
         }
 
-        missao.setStatus(StatusMissao.PENDENTE);
-        missoes.add(missao);
-        missoesPendentes.add(missao);
+
     }
+
+    public void lerAreas() {
+        if (areas == null || areas.isEmpty()) {
+            System.out.println("Nenhuma area cadastrada.");
+            return;
+        }
+        for (AreaOperacao area : areas) {
+            area.exibirInformacoes();
+            System.out.println();
+        }
+    }
+
+    public void lerRobos() {
+        if (robos == null || robos.isEmpty()) {
+            System.out.println("Nenhum robo cadastrado.");
+            return;
+        }
+        for (Robo robo : robos) {
+            System.out.println("ID: " + robo.getId());
+            System.out.println("Nome: " + robo.getNome());
+            System.out.println("Bateria: " + robo.getBateria());
+            System.out.println("Status: " + robo.getStatus());
+            System.out.println("Missoes realizadas: " + robo.getMissoesRealizadas());
+            System.out.println();
+        }
+    }
+
+    public void lerMissoes() {
+        if (missoes == null || missoes.isEmpty()) {
+            System.out.println("Nenhuma missao cadastrada.");
+            return;
+        }
+        for (Missao missao : missoes) {
+            exibirMissao(missao);
+        }
+    }
+
+    public void lerMissoesPendentes() {
+        if (missoesPendentes == null || missoesPendentes.isEmpty()) {
+            System.out.println("Nenhuma missao pendente.");
+            return;
+        }
+        for (Missao missao : missoesPendentes) {
+            exibirMissao(missao);
+        }
+    }
+
+    private void exibirMissao(Missao missao) {
+        System.out.println("ID: " + missao.getId());
+        System.out.println("Descricao: " + missao.getDescricao());
+        System.out.println("Tipo: " + missao.getTipo());
+        System.out.println("Area: " + (missao.getArea() == null ? "Nao definida" : missao.getArea().getNome()));
+        System.out.println("Prioridade: " + missao.getPrioridade());
+        System.out.println("Status: " + missao.getStatus());
+        System.out.println("Robo responsavel: " + (missao.getRoboResponsavel() == null ? "Nao definido" : missao.getRoboResponsavel().getNome()));
+        System.out.println("Resultado: " + missao.getResultado());
+        System.out.println();
+    }
+
 
     public String getNome() {
         return nome;

@@ -15,7 +15,7 @@ public abstract class Robo implements Comunicavel, Serializable {
     public Robo(String id, String nome, int bateria, StatusRobo status) {
         this.id = id;
         this.nome = nome;
-        this.bateria = bateria;
+        setBateria(bateria);
         this.status = status;
         this.missoesRealizadas = 0;
     }
@@ -33,15 +33,10 @@ public abstract class Robo implements Comunicavel, Serializable {
     public abstract void executaMissao();
 
     public void cadastraRobo(Scanner in){
-        try {
-            System.out.println("Digite o id do robo");
-            this.id = in.nextLine();
-            System.out.println("Digite o nome do robo: ");
-            this.nome = in.nextLine();
-        } catch (Exception e){
-            System.out.println("Erro ao cadastrar robo");
-        }
-
+        System.out.println("Digite o id do robo");
+        this.id = in.nextLine();
+        System.out.println("Digite o nome do robo: ");
+        this.nome = in.nextLine();
     }
 
     @Override
@@ -71,6 +66,9 @@ public abstract class Robo implements Comunicavel, Serializable {
     }
 
     public void setBateria(int bateria) {
+        if (bateria < 0 || bateria > 100) {
+            throw new IllegalArgumentException("A bateria deve estar entre 0 e 100.");
+        }
         this.bateria = bateria;
     }
 

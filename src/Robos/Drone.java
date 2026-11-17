@@ -24,8 +24,12 @@ public class Drone extends Robo implements Comunicavel, Serializable {
         thermal = false;
     }
 
+    @Override
     public void carregar() {
         super.setBateria(100);
+        if (super.getStatus() == StatusRobo.SEM_BATERIA){
+            super.setStatus(StatusRobo.DISPONIVEL);
+        }
     }
 
     public double getAltitudeMaxima() {
@@ -38,17 +42,18 @@ public class Drone extends Robo implements Comunicavel, Serializable {
 
     @Override
     public void cadastraRobo(Scanner in){
-        try {
-            super.cadastraRobo(in);
-            System.out.println("Digite a altitude maxima: ");
-            this.altitudeMaxima = in.nextFloat();
-            System.out.println("O Drone possui camera termal?");
-            System.out.println("1 - Sim");
-            System.out.println("0 - Nao");
-            this.thermal = in.nextBoolean();
-        } catch (Exception e){
-            System.out.println("Erro ao cadastrar robo");
+        super.cadastraRobo(in);
+        System.out.println("Digite a altitude maxima: ");
+        this.altitudeMaxima = in.nextFloat();
+        System.out.println("O Drone possui camera termal?");
+        System.out.println("1 - Sim");
+        System.out.println("0 - Nao");
+        int opcaoThermal = in.nextInt();
+        if (opcaoThermal != 0 && opcaoThermal != 1) {
+            throw new IllegalArgumentException("Digite 1 para Sim ou 0 para Nao.");
         }
+        this.thermal = opcaoThermal == 1;
+        in.nextLine();
     }
 
     @Override

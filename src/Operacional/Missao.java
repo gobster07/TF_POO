@@ -4,6 +4,7 @@ import Area.AreaOperacao;
 import Enum.*;
 import Robos.Robo;
 import java.io.Serializable;
+import java.util.Scanner;
 
 public class Missao implements Serializable {
     private String id;
@@ -16,6 +17,69 @@ public class Missao implements Serializable {
     private String resultado;
 
 
+
+    public void registrarMissao(Scanner in, CentralResgate central) {
+        if (central.getMissoes().contains(this)) {
+            System.out.println("Esta missao ja esta cadastrada. Crie uma nova missao.");
+            return;
+        }
+        if (central.getAreas().isEmpty()) {
+            System.out.println("Cadastre uma area antes de cadastrar uma missao.");
+            return;
+        }
+
+        try {
+            System.out.println("Digite o ID da missao:");
+            String novoId = in.nextLine().trim();
+            if (novoId.isBlank()) {
+                System.out.println("O ID nao pode ficar vazio.");
+                return;
+            }
+            if (central.getMissoes().stream().anyMatch(m -> novoId.equals(m.getId()))) {
+                System.out.println("Ja existe uma missao com esse ID.");
+                return;
+            }
+
+            System.out.println("Digite a descricao da missao:");
+            String novaDescricao = in.nextLine();
+            System.out.println("Digite o tipo da missao:");
+            String novoTipo = in.nextLine();
+            System.out.println("Digite a prioridade da missao (numero inteiro):");
+            int novaPrioridade = Integer.parseInt(in.nextLine().trim());
+
+            System.out.println("Areas cadastradas:");
+            for (AreaOperacao areaCadastrada : central.getAreas()) {
+                System.out.println(areaCadastrada.getId() + " - " + areaCadastrada.getNome());
+            }
+            System.out.println("Digite o ID da area da missao:");
+            String idArea = in.nextLine().trim();
+            AreaOperacao novaArea = null;
+            for (AreaOperacao areaCadastrada : central.getAreas()) {
+                if (idArea.equals(areaCadastrada.getId())) {
+                    novaArea = areaCadastrada;
+                    break;
+                }
+            }
+            if (novaArea == null) {
+                System.out.println("Area nao encontrada.");
+                return;
+            }
+
+            this.id = novoId;
+            this.descricao = novaDescricao;
+            this.tipo = novoTipo;
+            this.prioridade = novaPrioridade;
+            this.area = novaArea;
+            this.status = StatusMissao.PENDENTE;
+            this.roboResponsavel = null;
+            this.resultado = null;
+            central.getMissoes().add(this);
+            central.getMissoesPendentes().add(this);
+            System.out.println("Missao cadastrada com sucesso.");
+        } catch (Exception e) {
+            System.out.println("Erro no Cadastro.");
+        }
+    }
 
     public String getId() {
         return id;
