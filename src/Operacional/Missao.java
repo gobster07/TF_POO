@@ -17,6 +17,32 @@ public class Missao implements Serializable {
     private String resultado;
 
 
+    public void executar(Robo robo) {
+        try {
+            if (robo == null) {
+                throw new IllegalArgumentException("Selecione um robo.");
+            }
+            if (status != StatusMissao.PENDENTE) {
+                throw new IllegalArgumentException("A missao precisa estar pendente.");
+            }
+            if (robo.getStatus() != StatusRobo.DISPONIVEL) {
+                throw new IllegalArgumentException("O robo nao esta disponivel.");
+            }
+
+            // Verifica as restricoes implementadas na subclasse.
+            robo.executaMissao(this);
+
+            this.roboResponsavel = robo;
+            this.status = StatusMissao.EM_ANDAMENTO;
+            robo.setStatus(StatusRobo.EM_MISSAO);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro ao executar missao: " + e.getMessage());
+        }
+    }
+
+
+
 
     public void registrarMissao(Scanner in, CentralResgate central) {
         if (central.getMissoes().contains(this)) {

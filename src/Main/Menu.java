@@ -19,6 +19,9 @@ public class Menu {
             System.out.println("2 - Ver todas as missões");
             System.out.println("3 - Ver Robos");
             System.out.println("4 - Ver Areas");
+            System.out.println("5 - Cadastrar Robo");
+            System.out.println("6 - Cadastrar Area");
+            System.out.println("7 - Cadastrar Missao");
             System.out.println("0 - Sair");
             if (!in.hasNextLine()) {
                 return;
@@ -28,7 +31,7 @@ public class Menu {
                 if (opcao == 0) {
                     return;
                 }
-                Menu(opcao);
+                Menu(opcao, in);
             } catch (NumberFormatException e) {
                 System.out.println("Digite opção valida!");
             }
@@ -36,6 +39,10 @@ public class Menu {
     }
 
     public void Menu(int op){
+        Menu(op, in);
+    }
+
+    public void Menu(int op, Scanner in){
         switch (op){
             case 1:
                 centralResgate.lerMissoesPendentes();
@@ -48,6 +55,15 @@ public class Menu {
                 break;
             case 4:
                 centralResgate.lerAreas();
+                break;
+            case 5:
+                centralResgate.cadastroRobo(in);
+                break;
+            case 6:
+                centralResgate.registroArea(in);
+                break;
+            case 7:
+                centralResgate.cadastroMissao(in);
                 break;
             default:
                 System.out.println("Digite opção valida!");

@@ -45,9 +45,23 @@ public class CentralResgate implements Serializable {
         }
     }
 
+    public void registroArea(Scanner in){
+        AreaOperacao area = new AreaOperacao();
+        area.cadastroArea(in);
+        try {
+            areas.add(area);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro ao cadastrar area.");
+        }
+    }
+
     public void cadastroMissao(){
+        cadastroMissao(new Scanner(System.in));
+    }
+
+    public void cadastroMissao(Scanner in){
         Missao missao = new Missao();
-        missao.registrarMissao(new Scanner(System.in),this);
+        missao.registrarMissao(in,this);
     }
 
     public void cadastroRobo(Scanner in){

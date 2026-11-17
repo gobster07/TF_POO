@@ -2,6 +2,8 @@ package Robos;
 
 import Enum.StatusRobo;
 import Enum.Roda;
+import Enum.Horario;
+import Operacional.Missao;
 import interfaces.Comunicavel;
 
 import java.io.Serializable;
@@ -36,7 +38,7 @@ public class RoboTerrestre extends Robo implements Comunicavel, Serializable {
         this.bouyancy = in.nextInt() == 1;
         System.out.println("Qual a capacidade de carga do robo em KG?");
         this.capacidadeCarga = in.nextDouble();
-        System.out.println("Digite o tipo da roda: Normal ou OffRoad");
+        System.out.println("Digite o tipo da roda: NORMAL ou OFFROAD");
         this.roda = Roda.valueOf(in.next());
         in.nextLine();
     }
@@ -59,7 +61,13 @@ public class RoboTerrestre extends Robo implements Comunicavel, Serializable {
     }
 
     @Override
-    public void executaMissao() {
+    public void executaMissao(Missao missao) {
+        if (missao == null || missao.getArea() == null || missao.getArea().getHorario() == null) {
+            throw new IllegalArgumentException("A missao precisa de uma area com horario definido.");
+        }
+        if (missao.getArea().getHorario() == Horario.NOITE) {
+            throw new IllegalArgumentException("Missoes noturnas permitem apenas drones com camera termal.");
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package Robos;
 
 import Enum.*;
+import Operacional.Missao;
 
 import interfaces.*;
 
@@ -57,8 +58,16 @@ public class Drone extends Robo implements Comunicavel, Serializable {
     }
 
     @Override
-    public void executaMissao() {
-        System.out.println("Qual o id da missão?");
+    public void executaMissao(Missao missao) {
+        if (missao == null || missao.getArea() == null || missao.getArea().getHorario() == null) {
+            throw new IllegalArgumentException("A missao precisa de uma area com horario definido.");
+        }
+        if (missao.getArea().getHorario() == Horario.NOITE && !thermal) {
+            throw new IllegalArgumentException("Missoes noturnas exigem um drone com camera termal.");
+        }
+        if (missao.getArea().getAltitude() > altitudeMaxima + 50) {
+            throw new IllegalArgumentException("Missão em terreno alto demais para o drone.");
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package Robos;
 
 import Enum.*;
 import interfaces.*;
+import Operacional.Missao;
 
 import java.io.Serializable;
 import java.util.Scanner;
@@ -30,7 +31,7 @@ public abstract class Robo implements Comunicavel, Serializable {
 
     public abstract void carregar();
 
-    public abstract void executaMissao();
+    public abstract void executaMissao(Missao missao);
 
     public void cadastraRobo(Scanner in){
         System.out.println("Digite o id do robo");
