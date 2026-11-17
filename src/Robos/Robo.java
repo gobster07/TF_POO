@@ -12,6 +12,7 @@ public abstract class Robo implements Comunicavel, Serializable {
     private int bateria;
     private StatusRobo status;
     private int missoesRealizadas;
+    private double consumoPorHora;
 
     public Robo(String id, String nome, int bateria, StatusRobo status) {
         this.id = id;
@@ -19,6 +20,7 @@ public abstract class Robo implements Comunicavel, Serializable {
         setBateria(bateria);
         this.status = status;
         this.missoesRealizadas = 0;
+        this.consumoPorHora = 0;
     }
 
     public Robo(){
@@ -27,6 +29,7 @@ public abstract class Robo implements Comunicavel, Serializable {
         this.bateria = 100;
         this.status = StatusRobo.DISPONIVEL;
         this.missoesRealizadas = 0;
+        this.consumoPorHora = 0;
     }
 
     public abstract void carregar();
@@ -39,7 +42,8 @@ public abstract class Robo implements Comunicavel, Serializable {
         System.out.println("Digite o nome do robo: ");
         this.nome = in.nextLine();
     }
-
+    public void calculoBateria(){
+    }
     @Override
     public abstract void enviarMensagem(String mensagem);
 
@@ -64,6 +68,12 @@ public abstract class Robo implements Comunicavel, Serializable {
 
     public int getBateria() {
         return bateria;
+    }
+    public double getConsumoPorHora() {
+        return consumoPorHora;
+    }
+    public void setConsumoPorHora(double consumoPorHora) {
+        this.consumoPorHora = consumoPorHora;
     }
 
     public void setBateria(int bateria) {

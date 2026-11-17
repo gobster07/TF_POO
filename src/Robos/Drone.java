@@ -6,12 +6,13 @@ import Operacional.Missao;
 import interfaces.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Drone extends Robo implements Comunicavel, Serializable {
     private double altitudeMaxima;
     private boolean thermal;
-    private double consumo = 2.5;
+    private double consumo = 0;
 
     public Drone(String id, String nome, int bateria, StatusRobo status, double altitudeMaxima, boolean thermal) {
         super(id, nome, bateria, status);
