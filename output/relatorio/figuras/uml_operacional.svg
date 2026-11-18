@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1000" height="970" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1000 970" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1000" height="970"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-970)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="10" y="650" width="615" height="308" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="10" y="918" width="615" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 10,918 L 625,918 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="251.41357421875" y="932" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1864) scale(1,-1)">CentralResgate</text>
+			<text x="20" y="893" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1786) scale(1,-1)">- nome: String</text>
+			<text x="20" y="869" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1738) scale(1,-1)">- robos: Map&lt;String, Robo&gt;</text>
+			<text x="20" y="845" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1690) scale(1,-1)">- areas: List&lt;AreaOperacao&gt;</text>
+			<text x="20" y="821" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1642) scale(1,-1)">- missoes: List&lt;Missao&gt;</text>
+			<text x="20" y="797" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1594) scale(1,-1)">- missoesPendentes: Queue&lt;Missao&gt;</text>
+			<path d="M 10,784 L 625,784 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="20" y="759" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1518) scale(1,-1)">+ cadastrarRobo(robo: Robo): void</text>
+			<text x="20" y="735" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1470) scale(1,-1)">+ cadastrarArea(area: AreaOperacao): void</text>
+			<text x="20" y="711" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1422) scale(1,-1)">+ registrarMissao(missao: Missao): void</text>
+			<text x="20" y="687" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1374) scale(1,-1)">+ atribuirRoboMissao(idMissao: String, idRobo: String): void</text>
+			<text x="20" y="663" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1326) scale(1,-1)">+ gerarRelatorioGeral(): void</text>
+			<rect x="765" y="760" width="220" height="117" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="765" y="813" width="220" height="64" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 765,813 L 985,813 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="838.107177734375" y="855" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1710) scale(1,-1)">«abstract»</text>
+			<text x="852.16455078125" y="827" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1654) scale(1,-1)">Robo</text>
+			<path d="M 765,798 L 985,798 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="775" y="773" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1546) scale(1,-1)">+ executarMissao(...)</text>
+			<rect x="10" y="0" width="560" height="428" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="10" y="388" width="560" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 10,388 L 570,388 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="259.038330078125" y="402" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,804) scale(1,-1)">Missao</text>
+			<text x="20" y="363" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,726) scale(1,-1)">- id: String</text>
+			<text x="20" y="339" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,678) scale(1,-1)">- descricao: String</text>
+			<text x="20" y="315" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,630) scale(1,-1)">- tipo: TipoMissao</text>
+			<text x="20" y="291" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,582) scale(1,-1)">- area: AreaOperacao</text>
+			<text x="20" y="267" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,534) scale(1,-1)">- prioridade: int</text>
+			<text x="20" y="243" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,486) scale(1,-1)">- status: StatusMissao</text>
+			<text x="20" y="219" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,438) scale(1,-1)">- roboResponsavel: Robo</text>
+			<text x="20" y="195" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,390) scale(1,-1)">- resultado: String</text>
+			<text x="20" y="171" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,342) scale(1,-1)">- consumoFixoBateria: double</text>
+			<text x="20" y="147" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,294) scale(1,-1)">- dataInicio: LocalDateTime</text>
+			<path d="M 10,134 L 570,134 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="20" y="109" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,218) scale(1,-1)">+ atribuirRobo(robo: Robo): void</text>
+			<text x="20" y="85" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,170) scale(1,-1)">+ iniciar(): void</text>
+			<text x="20" y="61" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,122) scale(1,-1)">+ concluir(): void</text>
+			<text x="20" y="37" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,74) scale(1,-1)">+ cancelar(): void</text>
+			<text x="20" y="13" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,26) scale(1,-1)">+ exibirResumo(): void</text>
+			<rect x="655" y="35" width="330" height="308" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="655" y="303" width="330" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 655,303 L 985,303 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="757.27685546875" y="317" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,634) scale(1,-1)">AreaOperacao</text>
+			<text x="665" y="278" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,556) scale(1,-1)">- id: String</text>
+			<text x="665" y="254" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,508) scale(1,-1)">- nome: String</text>
+			<text x="665" y="230" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,460) scale(1,-1)">- localizacao: String</text>
+			<text x="665" y="206" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,412) scale(1,-1)">- horario: Horario</text>
+			<text x="665" y="182" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,364) scale(1,-1)">- tipoTerreno: TipoTerreno</text>
+			<text x="665" y="158" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,316) scale(1,-1)">- nivelRisco: NivelRisco</text>
+			<text x="665" y="134" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,268) scale(1,-1)">- descricao: String</text>
+			<text x="665" y="110" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,220) scale(1,-1)">- altitude: double</text>
+			<path d="M 655,97 L 985,97 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="665" y="72" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,144) scale(1,-1)">+ atualizarNivelRisco(r: NivelRisco): void</text>
+			<text x="665" y="48" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,96) scale(1,-1)">+ exibirInformacoes(): void</text>
+			<polyline points="140 650, 140 428" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd;"/>
+			<polyline points="145.3009 439.8702, 140 428, 134.6991 439.8702" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<text x="20" y="550" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1100) scale(1,-1)">missoes 0..*</text>
+			<polyline points="320 650, 320 428" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd;"/>
+			<polyline points="325.3009 439.8702, 320 428, 314.6991 439.8702" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<text x="330" y="525" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1050) scale(1,-1)">missoesPendentes 0..*</text>
+			<polyline points="625 700, 995 700, 995 200, 985 200" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd;"/>
+			<polyline points="996.8702 194.6991, 985 200, 996.8702 205.3009" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<text x="810" y="710" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1420) scale(1,-1)">areas 0..*</text>
+			<rect x="625" y="815" width="125" height="48" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="632" y="834" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1668) scale(1,-1)">idRobo: String</text>
+			<polyline points="750 839, 765 839" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd;"/>
+			<polyline points="753.1298 844.3009, 765 839, 753.1298 833.6991" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<text x="750" y="875" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1750) scale(1,-1)">0..1</text>
+			<polyline points="570 270, 655 270" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd;"/>
+			<polyline points="643.1298 275.3009, 655 270, 643.1298 264.6991" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<text x="585" y="280" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,560) scale(1,-1)">area 1</text>
+			<polyline points="570 390, 710 390, 710 770, 765 770" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd;"/>
+			<polyline points="753.1298 775.3009, 765 770, 753.1298 764.6991" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<text x="580" y="400" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,800) scale(1,-1)">roboResponsavel 0..1</text>
+		</g>
+	</g>
+</svg>

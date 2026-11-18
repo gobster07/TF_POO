@@ -8,3 +8,34 @@
 [18/11/2026 01:31:23] Drone R001 (drone01) -> Central: Missao M001: Operacao em andamento. Monitorando as condicoes da area.
 [18/11/2026 01:31:23] Central -> Drone R001 (drone01): Missao M001: Priorize a seguranca durante o deslocamento.
 [18/11/2026 01:31:23] Drone R001 (drone01) -> Central: Missao M001: Confirmado. Vou respeitar os limites do equipamento.
+[18/11/2026 11:24:13] Central -> Drone R001 (drone01): Iniciar missao M001 do tipo RECONHECIMENTO.
+[18/11/2026 11:24:13] Drone R001 (drone01) -> Central: Missao M001 iniciada.
+[18/11/2026 11:24:13] Central -> Drone R001 (drone01): Missao M001: Confirme o recebimento das instrucoes.
+[18/11/2026 11:24:13] Drone R001 (drone01) -> Central: Missao M001: Instrucoes recebidas. Estou atuando na area designada.
+[18/11/2026 11:24:13] Central -> Drone R001 (drone01): Missao M001: Mantenha a central informada sobre o progresso.
+[18/11/2026 11:24:13] Drone R001 (drone01) -> Central: Missao M001: Entendido. Informarei qualquer alteracao durante a operacao.
+[18/11/2026 14:50:52] Drone R001 (drone01) -> Central: Missao M001: Missao concluida com sucesso pelo robo drone01. Bateria restante: 65%. Desgaste: 15%.
+[18/11/2026 15:12:48] Central -> Drone R002 (drone02): Iniciar missao M002 do tipo LOCALIZACAO_DE_PESSOAS.
+[18/11/2026 15:12:48] Drone R002 (drone02) -> Central: Missao M002 iniciada.
+[18/11/2026 15:12:48] Central -> Drone R002 (drone02): Missao M002: Confirme o recebimento das instrucoes.
+[18/11/2026 15:12:48] Drone R002 (drone02) -> Central: Missao M002: Instrucoes recebidas. Estou atuando na area designada.
+[18/11/2026 15:12:48] Central -> Drone R002 (drone02): Missao M002: Mantenha a central informada sobre o progresso.
+[18/11/2026 15:12:48] Drone R002 (drone02) -> Central: Missao M002: Entendido. Informarei qualquer alteracao durante a operacao.
+[18/11/2026 15:19:15] Central -> Drone R003 (drone03): Iniciar missao M003 do tipo RECONHECIMENTO.
+[18/11/2026 15:19:15] Drone R003 (drone03) -> Central: Missao M003 iniciada.
+[18/11/2026 15:19:15] Central -> Drone R003 (drone03): Missao M003: Confirme o recebimento das instrucoes.
+[18/11/2026 15:19:15] Drone R003 (drone03) -> Central: Missao M003: Instrucoes recebidas. Estou atuando na area designada.
+[18/11/2026 15:19:15] Central -> Drone R003 (drone03): Missao M003: Mantenha a central informada sobre o progresso.
+[18/11/2026 15:19:15] Drone R003 (drone03) -> Central: Missao M003: Entendido. Informarei qualquer alteracao durante a operacao.
+[18/11/2026 15:19:46] Central -> Drone R002 (drone02): Missao M002: Informe a situacao da operacao.
+[18/11/2026 15:19:46] Drone R002 (drone02) -> Central: Missao M002: Operacao em andamento. Monitorando as condicoes da area.
+[18/11/2026 15:19:46] Central -> Drone R002 (drone02): Missao M002: Priorize a seguranca durante o deslocamento.
+[18/11/2026 15:19:46] Drone R002 (drone02) -> Central: Missao M002: Confirmado. Vou respeitar os limites do equipamento.
+[18/11/2026 15:20:15] Drone R002 (drone02) -> Central: Missao M002: Missao interrompida por falha do robo R002. Solicitando substituicao.
+[18/11/2026 15:20:15] Central -> Drone R001 (drone01): Iniciar missao M002 do tipo LOCALIZACAO_DE_PESSOAS.
+[18/11/2026 15:20:15] Drone R001 (drone01) -> Central: Missao M002 iniciada.
+[18/11/2026 15:20:15] Central -> Drone R001 (drone01): Missao M002: Confirme o funcionamento dos sistemas.
+[18/11/2026 15:20:15] Drone R001 (drone01) -> Central: Missao M002: Sistemas operacionais. Comunicacao com a central estabelecida.
+[18/11/2026 15:20:15] Central -> Drone R001 (drone01): Missao M002: Continue a missao e avise se precisar de apoio.
+[18/11/2026 15:20:15] Drone R001 (drone01) -> Central: Missao M002: Entendido. Solicitarei apoio caso seja necessario.
+[18/11/2026 15:20:15] Central -> Drone R001 (drone01): Assumir missao M002 apos falha do robo R002.

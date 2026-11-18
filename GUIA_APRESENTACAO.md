@@ -129,7 +129,7 @@ Os getters de mapa e listas retornam visões não modificáveis. A fila é entre
 
 Isso não torna cada objeto imutável. As mudanças permitidas continuam disponíveis por métodos específicos, como atualizar o risco da área.
 
-A fila não é um escalonador automático: o usuário ainda escolhe a missão pelo ID. O atributo de prioridade é registrado e exibido; não existe ordenação automática das missões por prioridade.
+A opção de iniciar usa a primeira missão pendente da fila, na ordem de entrada. `peek()` consulta essa missão e `poll()` a remove somente após o início bem-sucedido. O usuário escolhe apenas o robô. O atributo de prioridade é registrado e exibido; não altera a ordem da fila.
 
 ## 7. Cadastro de áreas, robôs e missões
 
@@ -180,9 +180,9 @@ Não tente fazer isso alterando `status` diretamente. Os métodos de ciclo prese
 
 ### Caminho ao escolher a opção 8
 
-1. A central lista as missões pendentes e os robôs disponíveis.
-2. O usuário informa os IDs.
-3. A central encontra a missão e faz uma busca direta do robô no mapa.
+1. A central consulta a primeira missão da fila com `peek()` e mostra seu resumo e os robôs disponíveis.
+2. O usuário informa apenas o ID do robô.
+3. A central mantém a missão do topo e faz uma busca direta do robô no mapa.
 4. A missão verifica se está pendente e se o robô pode atuar.
 5. A subclasse verifica suas restrições.
 6. O custo fixo é comparado à bateria disponível.
@@ -190,7 +190,7 @@ Não tente fazer isso alterando `status` diretamente. Os métodos de ciclo prese
 8. `iniciar()` valida novamente e `iniciarOperacao()` vincula o robô à missão.
 9. A missão fica `EM_ANDAMENTO`, o robô fica `EM_MISSAO` e `dataInicio` recebe o momento atual.
 10. São registradas mensagens e uma conversa predefinida.
-11. A central retira a missão da fila de pendentes.
+11. A central retira a primeira missão com `poll()`. Se o início falhar, ela permanece na frente da fila e nenhuma outra é iniciada.
 
 As validações são repetidas no início porque a disponibilidade pode ter mudado depois da atribuição. Atribuir não reserva o robô para sempre; outro início pode torná-lo ocupado.
 
@@ -470,7 +470,7 @@ Antes de apresentar, faça uma cópia do `central.dat` fora da pasta usada pela 
 1. Abrir o programa e mostrar a confirmação de carregamento.
 2. Consultar robôs, áreas e missões pelas opções 3, 4 e 2.
 3. Mostrar apenas disponíveis pela opção 15.
-4. Iniciar uma missão pela opção 8, informando IDs compatíveis.
+4. Iniciar a primeira missão da fila pela opção 8, informando o ID de um robô compatível.
 5. Mostrar a missão em andamento pela opção 16.
 6. Conversar pela opção 12 e abrir o histórico de mensagens.
 7. Concluir pela opção 9 e mostrar bateria, desgaste, contador e resultado.
@@ -479,7 +479,7 @@ Antes de apresentar, faça uma cópia do `central.dat` fora da pasta usada pela 
 
 ### Uma tentativa inválida
 
-Escolher uma missão de transporte e tentar usar um drone. Explicar que a restrição impede o início e preserva os estados. Outra possibilidade é uma missão noturna com drone sem câmera termal.
+Com uma missão de transporte no início da fila, tentar usar um drone. Explicar que a restrição impede o início e preserva os estados e a ordem da fila. Outra possibilidade é uma missão noturna com drone sem câmera termal no início da fila.
 
 ### Reatribuição
 
@@ -489,6 +489,7 @@ Iniciar uma missão com substituto compatível disponível. Registrar a falha pe
 
 Para evitar oito ciclos durante a apresentação:
 
+- Usar uma base de demonstração sem outras missões pendentes à frente das três que serão criadas.
 - Criar uma área de risco `ALTO`, altitude 200 m, horário `DIA`, terreno `URBANO`.
 - Usar um drone com câmera termal e altitude máxima de pelo menos 200 m.
 - Criar três missões de reconhecimento nessa área.
@@ -528,7 +529,7 @@ Se as missões forem encerradas em menos de um minuto, cada uma cobrará o custo
 
 **O arquivo texto substitui o `.dat`?** Não. O `.dat` guarda objetos para recuperar o sistema. Os `.txt` são históricos e relatórios legíveis.
 
-**A fila escolhe a próxima missão sozinha?** Não. Ela representa as pendentes; a seleção atual é manual pelo menu.
+**A fila escolhe a próxima missão sozinha?** Sim. A opção 8 apresenta a primeira pendente e pede somente o robô. A missão só sai da fila após iniciar com sucesso.
 
 **O que a recursão faz aqui?** Mostra novamente o menu por chamadas entre `Menu` e `MenuStart`, até a opção 0 interromper as chamadas.
 
@@ -536,7 +537,7 @@ Se as missões forem encerradas em menos de um minuto, cada uma cobrará o custo
 
 **Por que validar de novo ao iniciar?** Porque ter passado na atribuição não garante que o robô continue disponível quando a operação realmente começar.
 
-**Quantos testes existem?** A última execução completa registrou 513 verificações aprovadas. Isso é cobertura de casos definidos, não uma prova de ausência de qualquer defeito.
+**Quantos testes existem?** A última execução completa registrou 526 verificações aprovadas. Isso é cobertura de casos definidos, não uma prova de ausência de qualquer defeito.
 
 **A IA foi usada?** Sim. O grupo deve descrever o apoio recebido e explicar o código incorporado. Uma sugestão recusada ou modificada pode ser relatada, como a troca de laço por recursão ou a retirada da limpeza de tela, explicando a decisão e seus efeitos.
 

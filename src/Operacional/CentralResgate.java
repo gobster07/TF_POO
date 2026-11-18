@@ -103,7 +103,6 @@ public class CentralResgate implements Serializable {
         missao.atribuirRobo(robo);
     }
 
-    public void listarMissoesPendentes() { lerMissoesPendentes(); }
 
     public void cadastroMissao(Scanner in){
         Missao missao = new Missao();
@@ -628,28 +627,16 @@ public class CentralResgate implements Serializable {
     }
 
     public void executarMissao(Scanner in) {
-        if (missoes.stream().noneMatch(m -> m.getStatus() == StatusMissao.PENDENTE)) {
+        missoesPendentes = getMissoesPendentes();
+        Missao missao = missoesPendentes.peek();
+        if (missao == null) {
             System.out.println("Nenhuma missao pendente.");
             return;
         }
+        System.out.println("Proxima missao da fila:");
+        missao.exibirResumo();
         if (robos.values().stream().noneMatch(Robo::verificarDisponibilidade)) {
             System.out.println("Nenhum robo disponivel.");
-            return;
-        }
-        System.out.println("Missoes pendentes:");
-        missoes.stream()
-                .filter(m -> m.getStatus() == StatusMissao.PENDENTE)
-                .forEach(m -> System.out.println(m.getId() + " - " + m.getDescricao() + " - " + m.getTipo()));
-        System.out.println("Digite o ID da missao:");
-        if (!in.hasNextLine()) {
-            return;
-        }
-        String idMissao = in.nextLine().trim();
-        Missao missao = missoes.stream()
-                .filter(m -> idMissao.equals(m.getId()) && m.getStatus() == StatusMissao.PENDENTE)
-                .findFirst().orElse(null);
-        if (missao == null) {
-            System.out.println("Missao pendente nao encontrada.");
             return;
         }
         System.out.println("Robos disponiveis:");
@@ -662,18 +649,18 @@ public class CentralResgate implements Serializable {
         }
         String idRobo = in.nextLine().trim();
         Robo robo = robos.get(idRobo);
-        if (robo == null || robo.getStatus() != StatusRobo.DISPONIVEL) {
+        if (robo == null || !robo.verificarDisponibilidade()) {
             System.out.println("Robo disponivel nao encontrado.");
             return;
         }
         try {
-            atribuirRoboMissao(idMissao, idRobo);
+            atribuirRoboMissao(missao.getId(), idRobo);
             missao.iniciar();
         } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("Erro ao iniciar missao: " + e.getMessage());
         }
         if (missao.getStatus() == StatusMissao.EM_ANDAMENTO && missao.getRoboResponsavel() == robo) {
-            missoesPendentes.remove(missao);
+            missoesPendentes.poll();
             System.out.println("Missao " + missao.getId() + " iniciada com o robo " + robo.getId() + ".");
         }
     }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1000" height="1080" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1000 1080" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1000" height="1080"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-1080)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="260" y="915" width="490" height="141" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="260" y="992" width="490" height="64" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 260,992 L 750,992 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="465.34716796875" y="1034" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,2068) scale(1,-1)">«interface»</text>
+			<text x="448.998291015625" y="1006" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,2012) scale(1,-1)">Comunicavel</text>
+			<path d="M 260,977 L 750,977 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="270" y="952" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1904) scale(1,-1)">+ enviarMensagem(mensagem: String): void</text>
+			<text x="270" y="928" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1856) scale(1,-1)">+ receberMensagem(mensagem: String): void</text>
+			<rect x="170" y="410" width="660" height="428" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="170" y="774" width="660" height="64" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 170,774 L 830,774 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="463.107177734375" y="816" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1632) scale(1,-1)">«abstract»</text>
+			<text x="477.16455078125" y="788" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1576) scale(1,-1)">Robo</text>
+			<text x="180" y="749" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1498) scale(1,-1)">- id: String</text>
+			<text x="180" y="725" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1450) scale(1,-1)">- nome: String</text>
+			<text x="180" y="701" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1402) scale(1,-1)">- bateria: int</text>
+			<text x="180" y="677" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1354) scale(1,-1)">- status: StatusRobo</text>
+			<text x="180" y="653" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1306) scale(1,-1)">- missoesRealizadas: int</text>
+			<text x="180" y="629" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1258) scale(1,-1)">- consumoPorHora: double</text>
+			<text x="180" y="605" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1210) scale(1,-1)">- desgaste: int</text>
+			<text x="180" y="581" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1162) scale(1,-1)">- missaoAtual: Missao</text>
+			<path d="M 170,568 L 830,568 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="180" y="543" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1086) scale(1,-1)">+ verificarDisponibilidade(): boolean</text>
+			<text x="180" y="519" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1038) scale(1,-1)">+ carregar(): void {abstract}</text>
+			<text x="180" y="495" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,990) scale(1,-1)">+ executarMissao(missao: Missao): void {abstract}</text>
+			<text x="180" y="471" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,942) scale(1,-1)">+ calculoBateria(missao: Missao, horas: double): double</text>
+			<text x="180" y="447" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,894) scale(1,-1)"># calcularDesgaste(missao: Missao): int</text>
+			<text x="180" y="423" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,846) scale(1,-1)">+ realizarManutencao(): void</text>
+			<rect x="0" y="0" width="490" height="236" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="0" y="196" width="490" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 0,196 L 490,196 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="218.08349609375" y="210" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,420) scale(1,-1)">Drone</text>
+			<text x="10" y="171" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,342) scale(1,-1)">- altitudeMaxima: double</text>
+			<text x="10" y="147" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,294) scale(1,-1)">- thermal: boolean</text>
+			<text x="10" y="123" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,246) scale(1,-1)">- consumoCameraPorHora: double</text>
+			<path d="M 0,110 L 490,110 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="10" y="85" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,170) scale(1,-1)">+ carregar(): void</text>
+			<text x="10" y="61" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,122) scale(1,-1)">+ executarMissao(missao: Missao): void</text>
+			<text x="10" y="37" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,74) scale(1,-1)">+ calculoBateria(m: Missao, h: double): double</text>
+			<text x="10" y="13" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,26) scale(1,-1)"># calcularDesgaste(missao: Missao): int</text>
+			<rect x="510" y="0" width="490" height="212" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="510" y="172" width="490" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 510,172 L 1000,172 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="692.08203125" y="186" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,372) scale(1,-1)">RoboTerrestre</text>
+			<text x="520" y="147" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,294) scale(1,-1)">- bouyancy: boolean</text>
+			<text x="520" y="123" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,246) scale(1,-1)">- capacidadeCarga: double</text>
+			<text x="520" y="99" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,198) scale(1,-1)">- roda: Roda</text>
+			<path d="M 510,86 L 1000,86 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="520" y="61" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,122) scale(1,-1)">+ carregar(): void</text>
+			<text x="520" y="37" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,74) scale(1,-1)">+ executarMissao(missao: Missao): void</text>
+			<text x="520" y="13" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,26) scale(1,-1)"># calcularDesgaste(missao: Missao): int</text>
+			<polyline points="500 838, 500 915" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd; stroke-dasharray: 7, 5;"/>
+			<polygon points="500 915, 494.6991 903.1298, 505.3009 903.1298" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<polyline points="245 236, 245 360, 340 360, 340 410" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd;"/>
+			<polygon points="340 410, 334.6991 398.1298, 345.3009 398.1298" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<polyline points="755 212, 755 360, 660 360, 660 410" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd;"/>
+			<polygon points="660 410, 654.6991 398.1298, 665.3009 398.1298" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+		</g>
+	</g>
+</svg>

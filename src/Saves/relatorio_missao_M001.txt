@@ -1,0 +1,10 @@
+Relatório da missão
+Data de geração: 18/11/2026 11:19:54
+ID: M001
+Descrição: Reconhecer a area Centro
+Tipo: RECONHECIMENTO
+Área: Centro
+Prioridade: 3
+Status: PENDENTE
+Robô responsável: Não atribuído
+Resultado: Não informado
