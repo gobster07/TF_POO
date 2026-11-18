@@ -1,0 +1,10 @@
+[18/11/2026 01:31:09] Central -> Drone R001 (drone01): Iniciar missao M001 do tipo RECONHECIMENTO.
+[18/11/2026 01:31:09] Drone R001 (drone01) -> Central: Missao M001 iniciada.
+[18/11/2026 01:31:09] Central -> Drone R001 (drone01): Missao M001: Confirme o recebimento das instrucoes.
+[18/11/2026 01:31:09] Drone R001 (drone01) -> Central: Missao M001: Instrucoes recebidas. Estou atuando na area designada.
+[18/11/2026 01:31:09] Central -> Drone R001 (drone01): Missao M001: Mantenha a central informada sobre o progresso.
+[18/11/2026 01:31:09] Drone R001 (drone01) -> Central: Missao M001: Entendido. Informarei qualquer alteracao durante a operacao.
+[18/11/2026 01:31:23] Central -> Drone R001 (drone01): Missao M001: Informe a situacao da operacao.
+[18/11/2026 01:31:23] Drone R001 (drone01) -> Central: Missao M001: Operacao em andamento. Monitorando as condicoes da area.
+[18/11/2026 01:31:23] Central -> Drone R001 (drone01): Missao M001: Priorize a seguranca durante o deslocamento.
+[18/11/2026 01:31:23] Drone R001 (drone01) -> Central: Missao M001: Confirmado. Vou respeitar os limites do equipamento.

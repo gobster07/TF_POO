@@ -10,12 +10,15 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Drone extends Robo implements Comunicavel, Serializable {
+    private static final long serialVersionUID = 84035629436560638L;
+    private static final int MAX_FAIXAS_ALTITUDE = 30;
     private double altitudeMaxima;
     private boolean thermal;
     private double consumoCameraPorHora;
 
     public Drone(String id, String nome, int bateria, StatusRobo status, double altitudeMaxima, boolean thermal) {
         super(id, nome, bateria, status);
+        validarNaoNegativoFinito(altitudeMaxima, "Altitude maxima");
         this.altitudeMaxima = altitudeMaxima;
         this.thermal = thermal;
     }
@@ -34,11 +37,21 @@ public class Drone extends Robo implements Comunicavel, Serializable {
         }
     }
 
+    @Override
+    public void exibirRobo() {
+        super.exibirRobo();
+        System.out.println("Tipo: Drone");
+        System.out.println("Altitude maxima: " + altitudeMaxima + " m");
+        System.out.println("Camera termal: " + thermal);
+        System.out.println("Consumo da camera por hora: " + consumoCameraPorHora);
+    }
+
     public double getAltitudeMaxima() {
         return altitudeMaxima;
     }
 
     public void setAltitudeMaxima(float altitudeMaxima) {
+        validarNaoNegativoFinito(altitudeMaxima, "Altitude maxima");
         this.altitudeMaxima = altitudeMaxima;
     }
 
@@ -46,24 +59,28 @@ public class Drone extends Robo implements Comunicavel, Serializable {
     public void cadastraRobo(Scanner in){
         super.cadastraRobo(in);
         System.out.println("Digite a altitude maxima: ");
-        this.altitudeMaxima = in.nextFloat();
+        double altitude = Double.parseDouble(in.nextLine().trim().replace(',', '.'));
+        validarNaoNegativoFinito(altitude, "Altitude maxima");
+        this.altitudeMaxima = altitude;
         System.out.println("O Drone possui camera termal?");
         System.out.println("1 - Sim");
         System.out.println("0 - Nao");
-        int opcaoThermal = in.nextInt();
+        int opcaoThermal = Integer.parseInt(in.nextLine().trim());
         if (opcaoThermal != 0 && opcaoThermal != 1) {
             throw new IllegalArgumentException("Digite 1 para Sim ou 0 para Nao.");
         }
         this.thermal = opcaoThermal == 1;
         if (thermal) {
             System.out.println("Consumo da camera por hora:");
-            consumoCameraPorHora = in.nextDouble();
+            setConsumoCameraPorHora(Double.parseDouble(in.nextLine().trim().replace(',', '.')));
         }
-        in.nextLine();
     }
 
     @Override
-    public void executaMissao(Missao missao) {
+    public void executarMissao(Missao missao) {
+        if (precisaManutencao()) {
+            throw new IllegalArgumentException("O drone precisa de manutencao preventiva.");
+        }
         if (missao == null || missao.getArea() == null || missao.getArea().getHorario() == null) {
             throw new IllegalArgumentException("A missao precisa de uma area com horario definido.");
         }
@@ -99,9 +116,16 @@ public class Drone extends Robo implements Comunicavel, Serializable {
     }
     @Override
     public double calculoBateria(Missao missao, double horas) {
+        super.calculoBateria(missao, horas);
+        if (missao.getArea() == null) {
+            throw new IllegalArgumentException("A missao precisa de uma area.");
+        }
         double altura = missao.getArea().getAltitude();
+        validarNaoNegativoFinito(altura, "Altitude");
+        validarNaoNegativoFinito(consumoCameraPorHora, "Consumo da camera por hora");
         int multiplicador = 1;
-        int faixas = (int) (altura / 200);
+        // 2^30 e a ultima potencia de dois positiva que cabe em int.
+        int faixas = Math.min(MAX_FAIXAS_ALTITUDE, (int) (altura / 200));
         for (int i = 0; i < faixas; i++) {
             multiplicador = multiplicador * 2;
         }
@@ -112,11 +136,28 @@ public class Drone extends Robo implements Comunicavel, Serializable {
         return missao.getConsumoFixoBateria()
                 + consumoPorHora * horas * multiplicador;
     }
+
+    @Override
+    protected int calcularDesgaste(Missao missao) {
+        return super.calcularDesgaste(missao) + (thermal ? 5 : 0)
+                + (missao.getArea().getAltitude() >= 200 ? 5 : 0);
+    }
+
+    public double getConsumoCameraPorHora() {
+        return consumoCameraPorHora;
+    }
+
+    public void setConsumoCameraPorHora(double consumoCameraPorHora) {
+        validarNaoNegativoFinito(consumoCameraPorHora, "Consumo da camera por hora");
+        this.consumoCameraPorHora = consumoCameraPorHora;
+    }
     @Override
     public void enviarMensagem(String mensagem) {
+        super.enviarMensagem(mensagem);
     }
 
     @Override
     public void receberMensagem(String mensagem) {
+        super.receberMensagem(mensagem);
     }
 }

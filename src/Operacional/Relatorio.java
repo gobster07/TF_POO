@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import Save.Salvamento;
 import java.io.IOException;
 import java.util.List;
+import Enum.StatusMissao;
 
 public class Relatorio implements Serializable {
     private LocalDateTime dataGeracao;
@@ -13,6 +14,18 @@ public class Relatorio implements Serializable {
     private int totalMissoes;
     private int missoesConcluidas;
     private int missoesPendentes;
+
+    public Relatorio() {
+    }
+
+    public Relatorio(CentralResgate central) {
+        this.totalRobos = central.getRobos().size();
+        this.totalMissoes = central.getMissoes().size();
+        this.missoesConcluidas = (int) central.getMissoes().stream()
+                .filter(m -> m.getStatus() == StatusMissao.CONCLUIDA).count();
+        this.missoesPendentes = (int) central.getMissoes().stream()
+                .filter(m -> m.getStatus() == StatusMissao.PENDENTE).count();
+    }
 
     public LocalDateTime getDataGeracao() {
         return dataGeracao;
@@ -106,8 +119,9 @@ public class Relatorio implements Serializable {
     }
     public void salvarEmArquivo(Missao missao) throws IOException {
         Salvamento salvamento = new Salvamento();
+        String idArquivo = missao.getId().replaceAll("[^\\p{L}\\p{N}_-]", "_");
         salvamento.gravarRelatorio(
-                "relatorio_missao_" + missao.getId() + ".txt",
+                "relatorio_missao_" + idArquivo + ".txt",
                 gerarResumo(missao)
         );
     }
