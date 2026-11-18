@@ -20,7 +20,7 @@ public class MapRobosTest {
  rejeita(()->c.cadastrarRobo(null));
  AreaOperacao a=new AreaOperacao();a.setId("A1");a.setHorario(Horario.DIA);a.setTipoTerreno(TipoTerreno.URBANO);TestFixtures.areas(c).add(a);
  Missao m=new Missao();m.setId("M1");m.setArea(a);m.setTipo(TipoMissao.RECONHECIMENTO);TestFixtures.status(m,StatusMissao.PENDENTE);TestFixtures.missoes(c).add(m);TestFixtures.pendentes(c).add(m);
- c.executarMissao(new Scanner("M1\nD1\n"));check(m.getRoboResponsavel()==d&&m.getStatus()==StatusMissao.EM_ANDAMENTO&&c.getMissoesPendentes().isEmpty());
+ c.executarMissao(new Scanner("D1\n"));check(m.getRoboResponsavel()==d&&m.getStatus()==StatusMissao.EM_ANDAMENTO&&c.getMissoesPendentes().isEmpty());
  new Salvamento().gravarCentral(c);CentralResgate salva=new Salvamento().carregarCentral();check(salva.getRobos().size()==1&&salva.getRobos().get("D1").getNome().equals("Drone"));check(salva.getMissoes().get(0).getRoboResponsavel()==salva.getRobos().get("D1"));check(salva.getMissoes().get(0).getArea()==salva.getAreas().get(0));
  TestFixtures.missoes(c).clear();Map<String,Robo> novos=new LinkedHashMap<>();novos.put("chave",drone("D2"));c.setRobos(novos);check(c.getRobos().containsKey("D2")&&!c.getRobos().containsKey("chave"));
  rejeita(()->c.setRobos(null));

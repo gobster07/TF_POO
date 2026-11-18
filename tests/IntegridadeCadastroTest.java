@@ -11,7 +11,7 @@ public class IntegridadeCadastroTest {
  static void rejeita(Runnable r){boolean erro=false;try{r.run();}catch(IllegalArgumentException e){erro=true;}check(erro);}
  static String dados(String id,String horario,String terreno,String risco,String altitude){return id+"\nNome teste\nLocal\n"+horario+"\n"+terreno+"\n"+risco+"\n"+altitude+"\nDescricao da area\n";}
  public static void main(String[] args)throws Exception{
- CentralResgate c=new CentralResgate();TestFixtures.areas(c).clear();TestFixtures.robos(c).clear();
+ CentralResgate c=new CentralResgate();TestFixtures.missoes(c).clear();TestFixtures.pendentes(c).clear();TestFixtures.areas(c).clear();TestFixtures.robos(c).clear();
  for(String entrada:new String[]{dados("A1","INVALIDO","URBANO","BAIXO","10"),dados("A1","DIA","INVALIDO","BAIXO","10"),dados("A1","DIA","URBANO","INVALIDO","10"),dados("A1","DIA","URBANO","BAIXO","abc"),dados("A1","DIA","URBANO","BAIXO","NaN"),dados("A1","DIA","URBANO","BAIXO","Infinity"),dados("A1","DIA","URBANO","BAIXO","-1"),dados("","DIA","URBANO","BAIXO","10"),dados("  ","DIA","URBANO","BAIXO","10"),"A1\nNome\n"}){
  c.registroArea(new Scanner(entrada));check(c.getAreas().isEmpty());}
  c.registroArea(new Scanner(dados(" A1 ","DIA","URBANO","BAIXO","10,5")));check(c.getAreas().size()==1&&c.getAreas().get(0).getId().equals("A1")&&c.getAreas().get(0).getAltitude()==10.5);

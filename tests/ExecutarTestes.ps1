@@ -14,13 +14,12 @@ foreach ($arquivoTeste in (Get-ChildItem $PSScriptRoot -Filter '*Test.java' | So
     $suite = $arquivoTeste.BaseName
     $pastaTeste = Join-Path $execucao $suite
     New-Item -ItemType Directory -Force $pastaTeste | Out-Null
-    if ($suite -in @('MapRobosTest', 'IntegridadeCadastroTest', 'EncapsulamentoTest')) {
-        $savesTeste = Join-Path $pastaTeste 'src/Saves'
-        New-Item -ItemType Directory -Force $savesTeste | Out-Null
-        Copy-Item -LiteralPath (Join-Path $raizProjeto 'src/Saves/central.dat') -Destination (Join-Path $savesTeste 'central.dat')
-    }
     Push-Location $pastaTeste
     try {
+        if ($suite -in @('MapRobosTest', 'IntegridadeCadastroTest', 'EncapsulamentoTest')) {
+            & java -cp $classes PrepararSalvamento
+            if ($LASTEXITCODE -ne 0) { throw ('Falha ao preparar o salvamento de teste: ' + $suite) }
+        }
         $saida = @(& java -cp $classes $suite 2>&1)
         $codigo = $LASTEXITCODE
     } finally { Pop-Location }

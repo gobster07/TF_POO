@@ -8,7 +8,7 @@ powershell -ExecutionPolicy Bypass -File tests/ExecutarTestes.ps1
 
 O script compila a aplicacao e os testes, executa cada suite em uma pasta isolada em tmp, salva os logs e um resumo JSON e verifica que os arquivos reais de dados e mensagens nao mudaram.
 
-Tres suites usam uma copia do central.dat de demonstracao, com 10 robos, 10 missoes e 10 areas. O arquivo real nao e sobrescrito.
+Tres suites usam um central.dat gerado por PrepararSalvamento, com 10 robos, 10 missoes e 10 areas. Os dados sao criados na pasta isolada de cada suite, sem depender do conteudo do salvamento real. O arquivo real nao e sobrescrito.
 
 TestFixtures e exclusivo dos testes: prepara estados deliberadamente invalidos ou historicos por reflexao para testar validacoes e relatorios. A aplicacao nao depende dele. EncapsulamentoTest verifica as restricoes dos setters e das colecoes usando a API publica.
 
