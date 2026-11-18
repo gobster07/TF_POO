@@ -1,0 +1,7 @@
+package Enum;
+
+public enum TipoMissao {
+    RECONHECIMENTO,
+    LOCALIZACAO_DE_PESSOAS,
+    TRANSPORTE_DE_SUPRIMENTOS
+}

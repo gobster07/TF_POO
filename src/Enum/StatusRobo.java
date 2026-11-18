@@ -1,3 +1,5 @@
+package Enum;
+
 public enum StatusRobo {
     DISPONIVEL,
     EM_MISSAO,
