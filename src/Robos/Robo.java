@@ -3,10 +3,13 @@ package Robos;
 import Enum.*;
 import interfaces.*;
 import Operacional.Missao;
+import Mensagens.RegistroMensagens;
+import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.Scanner;
 public abstract class Robo implements Comunicavel, Serializable {
+    private static final long serialVersionUID = -1720325145472735421L;
     private String id;
     private String nome;
     private int bateria;
@@ -36,19 +39,26 @@ public abstract class Robo implements Comunicavel, Serializable {
 
     public abstract void executaMissao(Missao missao);
 
+    public void exibirRobo() {
+        System.out.println("ID: " + id);
+        System.out.println("Nome: " + nome);
+        System.out.println("Bateria: " + bateria + "%");
+        System.out.println("Status: " + status);
+        System.out.println("Missoes realizadas: " + missoesRealizadas);
+        System.out.println("Consumo por hora: " + consumoPorHora);
+    }
+
     public void cadastraRobo(Scanner in){
         System.out.println("Digite o id do robo");
         this.id = in.nextLine();
         System.out.println("Digite o nome do robo: ");
         this.nome = in.nextLine();
         System.out.println("Consumo de bateria por hora:");
-        setConsumoPorHora(in.nextDouble());
+        setConsumoPorHora(Double.parseDouble(in.nextLine().trim().replace(',', '.')));
     }
     public void descontarBateria(double consumo) {
-        int consumoInteiro = (int) consumo;
-        if (consumo > consumoInteiro) {
-            consumoInteiro++;
-        }
+        validarNaoNegativoFinito(consumo, "Consumo");
+        int consumoInteiro = (int) Math.ceil(Math.min(consumo, getBateria()));
         int bateriaRestante = getBateria() - consumoInteiro;
         if (bateriaRestante < 0) {
             bateriaRestante = 0;
@@ -59,13 +69,37 @@ public abstract class Robo implements Comunicavel, Serializable {
         }
     }
     public double calculoBateria(Missao missao, double horas) {
+        if (missao == null) {
+            throw new IllegalArgumentException("Informe a missao.");
+        }
+        validarNaoNegativoFinito(horas, "Duracao");
+        validarNaoNegativoFinito(missao.getConsumoFixoBateria(), "Consumo fixo");
+        validarNaoNegativoFinito(getConsumoPorHora(), "Consumo por hora");
         return missao.getConsumoFixoBateria() + getConsumoPorHora() * horas;
     }
+
+    protected static void validarNaoNegativoFinito(double valor, String campo) {
+        if (!Double.isFinite(valor) || valor < 0) {
+            throw new IllegalArgumentException(campo + " deve ser finito e nao negativo.");
+        }
+    }
     @Override
-    public abstract void enviarMensagem(String mensagem);
+    public void enviarMensagem(String mensagem) {
+        registrarMensagem(getClass().getSimpleName() + " " + id + " (" + nome + ")", "Central", mensagem);
+    }
 
     @Override
-    public abstract void receberMensagem(String mensagem);
+    public void receberMensagem(String mensagem) {
+        registrarMensagem("Central", getClass().getSimpleName() + " " + id + " (" + nome + ")", mensagem);
+    }
+
+    private void registrarMensagem(String remetente, String destinatario, String mensagem) {
+        try {
+            RegistroMensagens.registrar(remetente, destinatario, mensagem);
+        } catch (IOException e) {
+            System.out.println("Erro ao registrar mensagem: " + e.getMessage());
+        }
+    }
 
     public String getId() {
         return id;
@@ -90,6 +124,7 @@ public abstract class Robo implements Comunicavel, Serializable {
         return consumoPorHora;
     }
     public void setConsumoPorHora(double consumoPorHora) {
+        validarNaoNegativoFinito(consumoPorHora, "Consumo por hora");
         this.consumoPorHora = consumoPorHora;
     }
 

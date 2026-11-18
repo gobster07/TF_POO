@@ -3,12 +3,14 @@ package Operacional;
 import Area.AreaOperacao;
 import Enum.*;
 import Robos.Robo;
+import Mensagens.ConversasRobos;
 import java.io.Serializable;
 import java.util.Scanner;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Missao implements Serializable {
+    private static final long serialVersionUID = 4188654762073110789L;
     private String id;
     private String descricao;
     private TipoMissao tipo;
@@ -19,6 +21,18 @@ public class Missao implements Serializable {
     private String resultado;
     private double consumoFixoBateria;
     private LocalDateTime dataInicio;
+
+    public void exibirMissao() {
+        System.out.println("ID: " + id);
+        System.out.println("Descricao: " + descricao);
+        System.out.println("Tipo: " + tipo);
+        System.out.println("Area: " + (area == null ? "Nao definida" : area.getNome()));
+        System.out.println("Prioridade: " + prioridade);
+        System.out.println("Status: " + status);
+        System.out.println("Robo responsavel: " + (roboResponsavel == null ? "Nao definido" : roboResponsavel.getNome()));
+        System.out.println("Resultado: " + resultado);
+        System.out.println();
+    }
 
     public void executar(Robo robo) {
         try {
@@ -40,6 +54,9 @@ public class Missao implements Serializable {
                 this.status = StatusMissao.EM_ANDAMENTO;
                 dataInicio = LocalDateTime.now();
                 robo.setStatus(StatusRobo.EM_MISSAO);
+                robo.receberMensagem("Iniciar missao " + id + " do tipo " + tipo + ".");
+                robo.enviarMensagem("Missao " + id + " iniciada.");
+                ConversasRobos.conversar(this);
             }
 
         } catch (IllegalArgumentException e) {
@@ -186,9 +203,52 @@ public class Missao implements Serializable {
     }
 
     public void setConsumoFixoBateria(double consumoFixoBateria) {
+        if (!Double.isFinite(consumoFixoBateria) || consumoFixoBateria < 0) {
+            throw new IllegalArgumentException("O consumo fixo deve ser finito e nao negativo.");
+        }
         this.consumoFixoBateria = consumoFixoBateria;
     }
-    public void encerrar() {
+
+    public void interromperPorFalha() {
+        if (status != StatusMissao.EM_ANDAMENTO || roboResponsavel == null || dataInicio == null) {
+            throw new IllegalStateException("A missao precisa estar em andamento para registrar uma falha.");
+        }
+        long minutos = Duration.between(dataInicio, LocalDateTime.now()).toMinutes();
+        double consumo = roboResponsavel.calculoBateria(this, minutos / 60.0);
+        roboResponsavel.descontarBateria(consumo);
+        Robo roboComFalha = roboResponsavel;
+        roboComFalha.setStatus(StatusRobo.EM_MANUTENCAO);
+        status = StatusMissao.PENDENTE;
+        roboResponsavel = null;
+        dataInicio = null;
+        resultado = "Missao interrompida por falha do robo " + roboComFalha.getId() + ".";
+        roboComFalha.enviarMensagem("Missao " + id + ": " + resultado + " Solicitando substituicao.");
+    }
+
+    public void cancelar() {
+        if (status != StatusMissao.PENDENTE && status != StatusMissao.EM_ANDAMENTO) {
+            throw new IllegalStateException("Apenas missoes pendentes ou em andamento podem ser canceladas.");
+        }
+        if (status == StatusMissao.EM_ANDAMENTO) {
+            if (roboResponsavel == null || dataInicio == null) {
+                throw new IllegalStateException("A missao em andamento precisa de robo e data de inicio.");
+            }
+            long minutos = Duration.between(dataInicio, LocalDateTime.now()).toMinutes();
+            double consumo = roboResponsavel.calculoBateria(this, minutos / 60.0);
+            roboResponsavel.descontarBateria(consumo);
+            roboResponsavel.receberMensagem("Cancelar missao " + id + ".");
+            roboResponsavel.enviarMensagem("Cancelamento da missao " + id + " confirmado.");
+            if (roboResponsavel.getStatus() == StatusRobo.EM_MISSAO) {
+                roboResponsavel.setStatus(roboResponsavel.getBateria() > 0
+                        ? StatusRobo.DISPONIVEL : StatusRobo.SEM_BATERIA);
+            }
+        }
+        status = StatusMissao.CANCELADA;
+        resultado = "Missao cancelada.";
+        System.out.println(resultado);
+    }
+
+    public void concluir() {
         if (status != StatusMissao.EM_ANDAMENTO || roboResponsavel == null || dataInicio == null) {
             throw new IllegalStateException("A missao nao esta em andamento.");
         }
@@ -206,10 +266,15 @@ public class Missao implements Serializable {
         } else {
             roboResponsavel.descontarBateria(consumo);
             status = StatusMissao.CONCLUIDA;
+            resultado = "Missao concluida com sucesso pelo robo " + roboResponsavel.getNome() + ".";
+            roboResponsavel.setMissoesRealizadas(roboResponsavel.getMissoesRealizadas() + 1);
 
             if (roboResponsavel.getBateria() > 0) {
                 roboResponsavel.setStatus(StatusRobo.DISPONIVEL);
             }
+            System.out.println(resultado);
         }
+        roboResponsavel.enviarMensagem("Missao " + id + ": " + resultado
+                + " Bateria restante: " + roboResponsavel.getBateria() + "%.");
     }
 }
