@@ -44,9 +44,6 @@ public abstract class Robo implements Comunicavel, Serializable {
         System.out.println("Consumo de bateria por hora:");
         setConsumoPorHora(in.nextDouble());
     }
-    public double calculoBateria(Missao missao, double horas) {
-        return missao.getConsumoFixoBateria() + consumoPorHora * horas;
-    }
     public void descontarBateria(double consumo) {
         int bateriaRestante = getBateria() - (int) consumo;
         if (bateriaRestante < 0) {
@@ -56,6 +53,9 @@ public abstract class Robo implements Comunicavel, Serializable {
         if (bateriaRestante == 0) {
             setStatus(StatusRobo.SEM_BATERIA);
         }
+    }
+    public double calculoBateria(Missao missao, double horas) {
+        return missao.getConsumoFixoBateria() + getConsumoPorHora() * horas;
     }
     @Override
     public abstract void enviarMensagem(String mensagem);
