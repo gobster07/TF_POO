@@ -15,7 +15,7 @@ public class BateriaTest {
     static Drone drone() { Drone d=new Drone("D","Drone",100,StatusRobo.DISPONIVEL,10000,false); d.setConsumoPorHora(10); return d; }
     static Missao missao(double altura) {
         AreaOperacao a=new AreaOperacao(); a.setHorario(Horario.DIA); a.setTipoTerreno(TipoTerreno.URBANO); a.setAltitude(altura);
-        Missao m=new Missao(); m.setArea(a); m.setStatus(StatusMissao.PENDENTE); m.setTipo(TipoMissao.RECONHECIMENTO); m.setConsumoFixoBateria(10); return m;
+        Missao m=new Missao(); m.setArea(a); TestFixtures.status(m,StatusMissao.PENDENTE); m.setTipo(TipoMissao.RECONHECIMENTO); m.setConsumoFixoBateria(10); return m;
     }
     static void inicio(Missao m, LocalDateTime valor) { try {Field f=Missao.class.getDeclaredField("dataInicio");f.setAccessible(true);f.set(m,valor);}catch(Exception e){throw new RuntimeException(e);} }
     static void camera(Drone d, double valor) { try {Field f=Drone.class.getDeclaredField("consumoCameraPorHora");f.setAccessible(true);f.set(d,valor);}catch(Exception e){throw new RuntimeException(e);} }
@@ -39,9 +39,15 @@ public class BateriaTest {
         teste("Custo fixo negativo rejeitado",()->rejeita(()->missao(0).setConsumoFixoBateria(-1)));
         teste("Horas negativas rejeitadas",()->rejeita(()->drone().calculoBateria(missao(0),-1)));
         teste("Camera negativa rejeitada no calculo",()->{Drone d=new Drone("D","D",100,StatusRobo.DISPONIVEL,1000,true);camera(d,-10);rejeita(()->d.calculoBateria(missao(0),1));});
-        teste("Altitude 6200 nao gera consumo negativo",()->check(drone().calculoBateria(missao(6200),1)>0));
+        teste("Altitude antes do limite usa 2 elevado a 29",()->check(drone().calculoBateria(missao(5999),1)==10+10*Math.pow(2,29)));
+        teste("Altitude 6000 usa ultimo multiplicador seguro",()->check(drone().calculoBateria(missao(6000),1)==10+10*Math.pow(2,30)));
+        teste("Altitude 6199 preserva multiplicador seguro",()->check(drone().calculoBateria(missao(6199),1)==10+10*Math.pow(2,30)));
+        teste("Altitude 6200 fica limitada antes do estouro",()->check(drone().calculoBateria(missao(6200),1)==drone().calculoBateria(missao(6000),1)));
+        teste("Altitude muito alta nao estoura nem prolonga o calculo",()->check(drone().calculoBateria(missao(Double.MAX_VALUE),1)==10+10*Math.pow(2,30)));
+        teste("Sem tempo decorrido altitude cobra apenas o fixo",()->check(drone().calculoBateria(missao(6200),0)==10));
         teste("Encerramento registra resultado e contador",()->{Drone d=drone();Missao m=missao(0);m.executar(d);m.concluir();check(d.getMissoesRealizadas()==1&&m.getResultado()!=null&&!m.getResultado().isBlank());});
-        teste("Trinta segundos geram consumo variavel",()->{Drone d=drone();d.setConsumoPorHora(120);Missao m=missao(0);m.executar(d);inicio(m,LocalDateTime.now().minusSeconds(30));m.concluir();check(d.getBateria()<90);});
+        teste("Trinta segundos cobram apenas o consumo fixo",()->{Drone d=drone();d.setConsumoPorHora(120);Missao m=missao(0);m.executar(d);inicio(m,LocalDateTime.now().minusSeconds(30));m.concluir();check(d.getBateria()==90);});
+        teste("Apos um minuto cobra consumo variavel",()->{Drone d=drone();d.setConsumoPorHora(120);Missao m=missao(0);m.executar(d);inicio(m,LocalDateTime.now().minusSeconds(61));m.concluir();check(d.getBateria()==88);});
         System.out.println("TOTAL: "+passaram+" passaram; "+falharam+" falharam.");if(falharam>0)System.exit(1);
     }
 }

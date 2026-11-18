@@ -9,7 +9,7 @@ public class ComunicacaoTest {
  static int n;
  static Path arquivo=Path.of("src","Mensagens","mensagens.txt");
  static void check(boolean b){if(!b)throw new AssertionError("Cenario "+(n+1));n++;}
- static Missao missao(String id){AreaOperacao a=new AreaOperacao();a.setHorario(Horario.DIA);a.setTipoTerreno(TipoTerreno.URBANO);Missao m=new Missao();m.setId(id);m.setArea(a);m.setTipo(TipoMissao.RECONHECIMENTO);m.setStatus(StatusMissao.PENDENTE);m.setConsumoFixoBateria(10);return m;}
+ static Missao missao(String id){AreaOperacao a=new AreaOperacao();a.setHorario(Horario.DIA);a.setTipoTerreno(TipoTerreno.URBANO);Missao m=new Missao();m.setId(id);m.setArea(a);m.setTipo(TipoMissao.RECONHECIMENTO);TestFixtures.status(m,StatusMissao.PENDENTE);m.setConsumoFixoBateria(10);return m;}
  public static void main(String[] args)throws Exception{
  Drone d=new Drone("D1","drone01",100,StatusRobo.DISPONIVEL,100,false);
  RoboTerrestre r=new RoboTerrestre("R1","terrestre01",100,StatusRobo.DISPONIVEL,Roda.NORMAL,20,true);

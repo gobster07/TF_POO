@@ -30,6 +30,7 @@ public class RoboTerrestre extends Robo implements Comunicavel, Serializable {
         super(id, nome, bateria, status);
         this.bouyancy = bouyancy;
         this.roda = roda;
+        validarNaoNegativoFinito(capacidadeCarga, "Capacidade de carga");
         this.capacidadeCarga = capacidadeCarga;
     }
 
@@ -45,7 +46,9 @@ public class RoboTerrestre extends Robo implements Comunicavel, Serializable {
         }
         this.bouyancy = opcaoFlutuacao == 1;
         System.out.println("Qual a capacidade de carga do robo em KG?");
-        this.capacidadeCarga = Double.parseDouble(in.nextLine().trim().replace(',', '.'));
+        double carga = Double.parseDouble(in.nextLine().trim().replace(',', '.'));
+        validarNaoNegativoFinito(carga, "Capacidade de carga");
+        this.capacidadeCarga = carga;
         System.out.println("Digite o tipo da roda: NORMAL ou OFFROAD");
         this.roda = Roda.valueOf(in.nextLine().trim());
     }
@@ -73,11 +76,15 @@ public class RoboTerrestre extends Robo implements Comunicavel, Serializable {
     }
 
     public void setCapacidadeCarga(float capacidadeCarga) {
+        validarNaoNegativoFinito(capacidadeCarga, "Capacidade de carga");
         this.capacidadeCarga = capacidadeCarga;
     }
 
     @Override
-    public void executaMissao(Missao missao) {
+    public void executarMissao(Missao missao) {
+        if (precisaManutencao()) {
+            throw new IllegalArgumentException("O robo terrestre precisa de manutencao preventiva.");
+        }
         if (missao == null || missao.getArea() == null || missao.getArea().getHorario() == null) {
             throw new IllegalArgumentException("A missao precisa de uma area com horario definido.");
         }
@@ -120,6 +127,17 @@ public class RoboTerrestre extends Robo implements Comunicavel, Serializable {
     @Override
     public void enviarMensagem(String mensagem) {
         super.enviarMensagem(mensagem);
+    }
+
+    @Override
+    protected int calcularDesgaste(Missao missao) {
+        int acrescimo = super.calcularDesgaste(missao);
+        if (missao.getArea().getTipoTerreno() == TipoTerreno.IRREGULAR) {
+            acrescimo += 10;
+        } else if (missao.getArea().getTipoTerreno() == TipoTerreno.ALAGADO) {
+            acrescimo += 5;
+        }
+        return acrescimo;
     }
 
     @Override

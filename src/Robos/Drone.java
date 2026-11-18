@@ -11,12 +11,14 @@ import java.util.Scanner;
 
 public class Drone extends Robo implements Comunicavel, Serializable {
     private static final long serialVersionUID = 84035629436560638L;
+    private static final int MAX_FAIXAS_ALTITUDE = 30;
     private double altitudeMaxima;
     private boolean thermal;
     private double consumoCameraPorHora;
 
     public Drone(String id, String nome, int bateria, StatusRobo status, double altitudeMaxima, boolean thermal) {
         super(id, nome, bateria, status);
+        validarNaoNegativoFinito(altitudeMaxima, "Altitude maxima");
         this.altitudeMaxima = altitudeMaxima;
         this.thermal = thermal;
     }
@@ -49,6 +51,7 @@ public class Drone extends Robo implements Comunicavel, Serializable {
     }
 
     public void setAltitudeMaxima(float altitudeMaxima) {
+        validarNaoNegativoFinito(altitudeMaxima, "Altitude maxima");
         this.altitudeMaxima = altitudeMaxima;
     }
 
@@ -56,7 +59,9 @@ public class Drone extends Robo implements Comunicavel, Serializable {
     public void cadastraRobo(Scanner in){
         super.cadastraRobo(in);
         System.out.println("Digite a altitude maxima: ");
-        this.altitudeMaxima = Double.parseDouble(in.nextLine().trim().replace(',', '.'));
+        double altitude = Double.parseDouble(in.nextLine().trim().replace(',', '.'));
+        validarNaoNegativoFinito(altitude, "Altitude maxima");
+        this.altitudeMaxima = altitude;
         System.out.println("O Drone possui camera termal?");
         System.out.println("1 - Sim");
         System.out.println("0 - Nao");
@@ -72,7 +77,10 @@ public class Drone extends Robo implements Comunicavel, Serializable {
     }
 
     @Override
-    public void executaMissao(Missao missao) {
+    public void executarMissao(Missao missao) {
+        if (precisaManutencao()) {
+            throw new IllegalArgumentException("O drone precisa de manutencao preventiva.");
+        }
         if (missao == null || missao.getArea() == null || missao.getArea().getHorario() == null) {
             throw new IllegalArgumentException("A missao precisa de uma area com horario definido.");
         }
@@ -116,7 +124,8 @@ public class Drone extends Robo implements Comunicavel, Serializable {
         validarNaoNegativoFinito(altura, "Altitude");
         validarNaoNegativoFinito(consumoCameraPorHora, "Consumo da camera por hora");
         int multiplicador = 1;
-        int faixas = (int) (altura / 200);
+        // 2^30 e a ultima potencia de dois positiva que cabe em int.
+        int faixas = Math.min(MAX_FAIXAS_ALTITUDE, (int) (altura / 200));
         for (int i = 0; i < faixas; i++) {
             multiplicador = multiplicador * 2;
         }
@@ -126,6 +135,12 @@ public class Drone extends Robo implements Comunicavel, Serializable {
         }
         return missao.getConsumoFixoBateria()
                 + consumoPorHora * horas * multiplicador;
+    }
+
+    @Override
+    protected int calcularDesgaste(Missao missao) {
+        return super.calcularDesgaste(missao) + (thermal ? 5 : 0)
+                + (missao.getArea().getAltitude() >= 200 ? 5 : 0);
     }
 
     public double getConsumoCameraPorHora() {

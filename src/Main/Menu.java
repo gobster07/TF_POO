@@ -32,6 +32,13 @@ public class Menu {
         System.out.println("11 - Recarregar Robos");
         System.out.println("12 - Conversar com Robo");
         System.out.println("13 - Registrar falha de Robo");
+        System.out.println("14 - Atualizar risco de Area");
+        System.out.println("15 - Ver Robos disponiveis");
+        System.out.println("16 - Ver Missoes em andamento");
+        System.out.println("17 - Relatorio geral da Central");
+        System.out.println("18 - Relatorio de uma Missao");
+        System.out.println("19 - Relatorio de todas as Missoes");
+        System.out.println("20 - Realizar manutencao de Robo");
         System.out.println("0 - Salvar e sair");
         try {
             int opcao = in.nextInt();
@@ -102,6 +109,34 @@ public class Menu {
                 break;
             case 13:
                 centralResgate.registrarFalhaRobo(in);
+                MenuStart(in);
+                break;
+            case 14:
+                centralResgate.atualizarNivelRiscoArea(in);
+                MenuStart(in);
+                break;
+            case 15:
+                centralResgate.listarRobosDisponiveis();
+                MenuStart(in);
+                break;
+            case 16:
+                centralResgate.listarMissoesEmAndamento();
+                MenuStart(in);
+                break;
+            case 17:
+                centralResgate.gerarRelatorioGeral();
+                MenuStart(in);
+                break;
+            case 18:
+                centralResgate.gerarRelatorioMissao(in);
+                MenuStart(in);
+                break;
+            case 19:
+                centralResgate.gerarRelatorioMissoes();
+                MenuStart(in);
+                break;
+            case 20:
+                centralResgate.realizarManutencaoRobo(in);
                 MenuStart(in);
                 break;
             case 0:

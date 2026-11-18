@@ -8,7 +8,7 @@ import java.util.*;
 public class ConversasRobosTest {
  static int n;
  static void check(boolean b){if(!b)throw new AssertionError("Teste "+(n+1));n++;}
- static Missao missao(String id){AreaOperacao a=new AreaOperacao();a.setHorario(Horario.DIA);a.setTipoTerreno(TipoTerreno.URBANO);Missao m=new Missao();m.setId(id);m.setArea(a);m.setTipo(TipoMissao.RECONHECIMENTO);m.setStatus(StatusMissao.PENDENTE);return m;}
+ static Missao missao(String id){AreaOperacao a=new AreaOperacao();a.setHorario(Horario.DIA);a.setTipoTerreno(TipoTerreno.URBANO);Missao m=new Missao();m.setId(id);m.setArea(a);m.setTipo(TipoMissao.RECONHECIMENTO);TestFixtures.status(m,StatusMissao.PENDENTE);return m;}
  public static void main(String[] args)throws Exception{
  Path arquivo=Path.of("src/Mensagens/mensagens.txt");
  String[] esperadas={"Confirme o recebimento das instrucoes.","Informe a situacao da operacao.","Confirme o funcionamento dos sistemas.","Confirme o recebimento das instrucoes."};

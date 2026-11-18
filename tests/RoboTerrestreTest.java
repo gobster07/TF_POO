@@ -7,9 +7,9 @@ public class RoboTerrestreTest {
     static int total;
     static Missao missao() {
         AreaOperacao area=new AreaOperacao();area.setHorario(Horario.DIA);area.setTipoTerreno(TipoTerreno.URBANO);
-        Missao m=new Missao();m.setArea(area);m.setTipo(TipoMissao.RECONHECIMENTO);m.setStatus(StatusMissao.PENDENTE);return m;
+        Missao m=new Missao();m.setArea(area);m.setTipo(TipoMissao.RECONHECIMENTO);TestFixtures.status(m,StatusMissao.PENDENTE);return m;
     }
-    static RoboTerrestre robo(double carga) {return new RoboTerrestre("R1","Terrestre",100,StatusRobo.DISPONIVEL,Roda.OFFROAD,carga,true);}
+    static RoboTerrestre robo(double carga) {return TestFixtures.terrestreCargaInvalida(carga);}
     static void verifica(RoboTerrestre r,Missao m,boolean permitido) {
         StatusMissao estado=m==null?null:m.getStatus();Robo responsavel=m==null?null:m.getRoboResponsavel();
         StatusRobo status=r.getStatus();int bateria=r.getBateria();boolean rejeitou=false;
@@ -26,15 +26,15 @@ public class RoboTerrestreTest {
                 verifica(r,m,h==Horario.DIA && (t!=TipoTerreno.ALAGADO||flutua) && (t!=TipoTerreno.IRREGULAR||roda==Roda.OFFROAD));
             }
         verifica(robo(10),null,false);
-        Missao m=missao();m.setArea(null);verifica(robo(10),m,false);
-        m=missao();m.getArea().setHorario(null);verifica(robo(10),m,false);
-        m=missao();m.getArea().setTipoTerreno(null);verifica(robo(10),m,false);
-        m=missao();m.setTipo(null);verifica(robo(10),m,false);
-        for(StatusMissao s:StatusMissao.values())if(s!=StatusMissao.PENDENTE){m=missao();m.setStatus(s);verifica(robo(10),m,false);}
-        for(StatusRobo s:StatusRobo.values())if(s!=StatusRobo.DISPONIVEL){RoboTerrestre r=robo(10);r.setStatus(s);verifica(r,missao(),false);}
+        Missao m=missao();TestFixtures.definir(m,"area",null);verifica(robo(10),m,false);
+        m=missao();TestFixtures.definir(m.getArea(),"horario",null);verifica(robo(10),m,false);
+        m=missao();TestFixtures.definir(m.getArea(),"tipoTerreno",null);verifica(robo(10),m,false);
+        m=missao();TestFixtures.definir(m,"tipo",null);verifica(robo(10),m,false);
+        for(StatusMissao s:StatusMissao.values())if(s!=StatusMissao.PENDENTE){m=missao();TestFixtures.status(m,s);verifica(robo(10),m,false);}
+        for(StatusRobo s:StatusRobo.values())if(s!=StatusRobo.DISPONIVEL){RoboTerrestre r=robo(10);TestFixtures.status(r,s);verifica(r,missao(),false);}
         RoboTerrestre r=robo(10);r.setBateria(0);verifica(r,missao(),false);
-        m=missao();m.setRoboResponsavel(robo(10));verifica(robo(10),m,false);
-        r=robo(10);m=missao();m.setRoboResponsavel(r);verifica(r,m,true);
+        m=missao();TestFixtures.responsavel(m,robo(10));verifica(robo(10),m,false);
+        r=robo(10);m=missao();TestFixtures.responsavel(m,r);verifica(r,m,true);
         verifica(new RoboTerrestre("R","R",100,StatusRobo.DISPONIVEL,null,10,true),missao(),false);
         for(double carga:new double[]{0,-1,Double.NaN,Double.POSITIVE_INFINITY}){m=missao();m.setTipo(TipoMissao.TRANSPORTE_DE_SUPRIMENTOS);verifica(robo(carga),m,false);}
         r=robo(10);m=missao();m.executar(r);

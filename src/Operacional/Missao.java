@@ -12,11 +12,12 @@ import java.time.LocalDateTime;
 public class Missao implements Serializable {
     private static final long serialVersionUID = 4188654762073110789L;
     private String id;
+    private boolean cadastrada;
     private String descricao;
     private TipoMissao tipo;
     private AreaOperacao area;
     private int prioridade;
-    private StatusMissao status;
+    private StatusMissao status = StatusMissao.PENDENTE;
     private Robo roboResponsavel;
     private String resultado;
     private double consumoFixoBateria;
@@ -34,40 +35,50 @@ public class Missao implements Serializable {
         System.out.println();
     }
 
+    private void validarAtribuicao(Robo robo) {
+        if (status != StatusMissao.PENDENTE) throw new IllegalArgumentException("A missao precisa estar pendente.");
+        if (robo == null || !robo.verificarDisponibilidade()) throw new IllegalArgumentException("Selecione um robo disponivel.");
+        if (roboResponsavel != null && roboResponsavel != robo) throw new IllegalArgumentException("A missao ja possui outro responsavel.");
+        robo.executaMissao(this);
+        if (robo.calculoBateria(this, 0) > robo.getBateria()) throw new IllegalArgumentException("Bateria insuficiente para iniciar a missao.");
+    }
+
+    public void atribuirRobo(Robo robo) {
+        validarAtribuicao(robo);
+        roboResponsavel = robo;
+    }
+
+    public void iniciar() {
+        validarAtribuicao(roboResponsavel);
+        roboResponsavel.iniciarOperacao(this);
+        status = StatusMissao.EM_ANDAMENTO;
+        dataInicio = LocalDateTime.now();
+        roboResponsavel.receberMensagem("Iniciar missao " + id + " do tipo " + tipo + ".");
+        roboResponsavel.enviarMensagem("Missao " + id + " iniciada.");
+        ConversasRobos.conversar(this);
+    }
+
     public void executar(Robo robo) {
         try {
-            if (robo == null) {
-                throw new IllegalArgumentException("Selecione um robo.");
-            }
-            if (status != StatusMissao.PENDENTE) {
-                throw new IllegalArgumentException("A missao precisa estar pendente.");
-            }
-            if (robo.getStatus() != StatusRobo.DISPONIVEL) {
-                throw new IllegalArgumentException("O robo nao esta disponivel.");
-            }
-            robo.executaMissao(this);
-            if (robo.calculoBateria(this, 0) > robo.getBateria()) {
-                throw new IllegalArgumentException("Bateria insuficiente para iniciar a missao.");
-            }
-            if (this.status != StatusMissao.CONCLUIDA) {
-                this.roboResponsavel = robo;
-                this.status = StatusMissao.EM_ANDAMENTO;
-                dataInicio = LocalDateTime.now();
-                robo.setStatus(StatusRobo.EM_MISSAO);
-                robo.receberMensagem("Iniciar missao " + id + " do tipo " + tipo + ".");
-                robo.enviarMensagem("Missao " + id + " iniciada.");
-                ConversasRobos.conversar(this);
-            }
-
-        } catch (IllegalArgumentException e) {
+            atribuirRobo(robo);
+            iniciar();
+        } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println("Erro ao executar missao: " + e.getMessage());
         }
     }
 
+    public void exibirResumo() { exibirMissao(); }
 
+    public void bloquearCadastro() { cadastrada = true; }
 
+    private void validarEdicao() {
+        if (dataInicio != null || status == StatusMissao.CONCLUIDA || status == StatusMissao.CANCELADA) {
+            throw new IllegalArgumentException("Nao e permitido editar uma missao iniciada ou encerrada.");
+        }
+    }
 
     public void registrarMissao(Scanner in, CentralResgate central) {
+        if (cadastrada) throw new IllegalArgumentException("A missao ja esta cadastrada.");
         if (central.getMissoes().contains(this)) {
             System.out.println("Esta missao ja esta cadastrada. Crie uma nova missao.");
             return;
@@ -126,8 +137,7 @@ public class Missao implements Serializable {
             this.status = StatusMissao.PENDENTE;
             this.roboResponsavel = null;
             this.resultado = null;
-            central.getMissoes().add(this);
-            central.getMissoesPendentes().add(this);
+            central.registrarMissao(this);
             System.out.println("Missao cadastrada com sucesso.");
         } catch (Exception e) {
             System.out.println("Erro no Cadastro.");
@@ -140,6 +150,9 @@ public class Missao implements Serializable {
     }
 
     public void setId(String id) {
+        validarEdicao();
+        if (id == null || id.isBlank()) throw new IllegalArgumentException("Informe o ID da missao.");
+        if (cadastrada && !java.util.Objects.equals(this.id, id)) throw new IllegalArgumentException("O ID cadastrado nao pode mudar.");
         this.id = id;
     }
 
@@ -148,6 +161,7 @@ public class Missao implements Serializable {
     }
 
     public void setDescricao(String descricao) {
+        validarEdicao();
         this.descricao = descricao;
     }
 
@@ -156,6 +170,9 @@ public class Missao implements Serializable {
     }
 
     public void setTipo(TipoMissao tipo) {
+        validarEdicao();
+        if (cadastrada && this.tipo != tipo) throw new IllegalArgumentException("O tipo de uma missao cadastrada nao pode mudar.");
+        if (tipo == null) throw new IllegalArgumentException("Informe tipo.");
         this.tipo = tipo;
     }
 
@@ -164,6 +181,9 @@ public class Missao implements Serializable {
     }
 
     public void setArea(AreaOperacao area) {
+        validarEdicao();
+        if (cadastrada && this.area != area) throw new IllegalArgumentException("A area de uma missao cadastrada nao pode mudar.");
+        if (area == null) throw new IllegalArgumentException("Informe area.");
         this.area = area;
     }
 
@@ -172,6 +192,8 @@ public class Missao implements Serializable {
     }
 
     public void setPrioridade(int prioridade) {
+        validarEdicao();
+        if (prioridade < 0) throw new IllegalArgumentException("Prioridade nao pode ser negativa.");
         this.prioridade = prioridade;
     }
 
@@ -180,7 +202,9 @@ public class Missao implements Serializable {
     }
 
     public void setStatus(StatusMissao status) {
-        this.status = status;
+        if (status == null || this.status != status) {
+            throw new IllegalArgumentException("Use iniciar, concluir, cancelar ou registrar falha para mudar o status.");
+        }
     }
 
     public Robo getRoboResponsavel() {
@@ -188,7 +212,7 @@ public class Missao implements Serializable {
     }
 
     public void setRoboResponsavel(Robo roboResponsavel) {
-        this.roboResponsavel = roboResponsavel;
+        atribuirRobo(roboResponsavel);
     }
 
     public String getResultado() {
@@ -196,6 +220,7 @@ public class Missao implements Serializable {
     }
 
     public void setResultado(String resultado) {
+        validarEdicao();
         this.resultado = resultado;
     }
     public double getConsumoFixoBateria() {
@@ -203,6 +228,7 @@ public class Missao implements Serializable {
     }
 
     public void setConsumoFixoBateria(double consumoFixoBateria) {
+        validarEdicao();
         if (!Double.isFinite(consumoFixoBateria) || consumoFixoBateria < 0) {
             throw new IllegalArgumentException("O consumo fixo deve ser finito e nao negativo.");
         }
@@ -216,8 +242,9 @@ public class Missao implements Serializable {
         long minutos = Duration.between(dataInicio, LocalDateTime.now()).toMinutes();
         double consumo = roboResponsavel.calculoBateria(this, minutos / 60.0);
         roboResponsavel.descontarBateria(consumo);
+        roboResponsavel.registrarDesgaste(this);
         Robo roboComFalha = roboResponsavel;
-        roboComFalha.setStatus(StatusRobo.EM_MANUTENCAO);
+        roboComFalha.registrarFalha(this);
         status = StatusMissao.PENDENTE;
         roboResponsavel = null;
         dataInicio = null;
@@ -236,15 +263,14 @@ public class Missao implements Serializable {
             long minutos = Duration.between(dataInicio, LocalDateTime.now()).toMinutes();
             double consumo = roboResponsavel.calculoBateria(this, minutos / 60.0);
             roboResponsavel.descontarBateria(consumo);
+            roboResponsavel.registrarDesgaste(this);
             roboResponsavel.receberMensagem("Cancelar missao " + id + ".");
             roboResponsavel.enviarMensagem("Cancelamento da missao " + id + " confirmado.");
-            if (roboResponsavel.getStatus() == StatusRobo.EM_MISSAO) {
-                roboResponsavel.setStatus(roboResponsavel.getBateria() > 0
-                        ? StatusRobo.DISPONIVEL : StatusRobo.SEM_BATERIA);
-            }
         }
+        boolean estavaEmAndamento = dataInicio != null;
         status = StatusMissao.CANCELADA;
         resultado = "Missao cancelada.";
+        if (estavaEmAndamento) roboResponsavel.atualizarStatusAposOperacao(this);
         System.out.println(resultado);
     }
 
@@ -259,22 +285,23 @@ public class Missao implements Serializable {
 
         if (consumo > roboResponsavel.getBateria()) {
             roboResponsavel.setBateria(0);
-            roboResponsavel.setStatus(StatusRobo.SEM_BATERIA);
+            roboResponsavel.registrarDesgaste(this);
             status = StatusMissao.CANCELADA;
+            roboResponsavel.atualizarStatusAposOperacao(this);
             resultado = "A bateria teria acabado durante a missao.";
             System.out.println(resultado);
         } else {
             roboResponsavel.descontarBateria(consumo);
+            roboResponsavel.registrarDesgaste(this);
             status = StatusMissao.CONCLUIDA;
             resultado = "Missao concluida com sucesso pelo robo " + roboResponsavel.getNome() + ".";
-            roboResponsavel.setMissoesRealizadas(roboResponsavel.getMissoesRealizadas() + 1);
+            roboResponsavel.registrarConclusao(this);
 
-            if (roboResponsavel.getBateria() > 0) {
-                roboResponsavel.setStatus(StatusRobo.DISPONIVEL);
-            }
+            roboResponsavel.atualizarStatusAposOperacao(this);
             System.out.println(resultado);
         }
         roboResponsavel.enviarMensagem("Missao " + id + ": " + resultado
-                + " Bateria restante: " + roboResponsavel.getBateria() + "%.");
+                + " Bateria restante: " + roboResponsavel.getBateria() + "%. Desgaste: "
+                + roboResponsavel.getDesgaste() + "%.");
     }
 }

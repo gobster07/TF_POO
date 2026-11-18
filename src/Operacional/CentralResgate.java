@@ -3,6 +3,7 @@ package Operacional;
 import Area.AreaOperacao;
 import Enum.StatusMissao;
 import Enum.StatusRobo;
+import Enum.NivelRisco;
 import Robos.Drone;
 import Robos.Robo;
 import Robos.RoboTerrestre;
@@ -39,10 +40,10 @@ public class CentralResgate implements Serializable {
             Salvamento salvamento = new Salvamento();
             CentralResgate centralSalva = salvamento.carregarCentral();
             this.nome = centralSalva.getNome();
-            this.robos = centralSalva.getRobos();
-            this.areas = centralSalva.getAreas();
-            this.missoes = centralSalva.getMissoes();
-            this.missoesPendentes = centralSalva.getMissoesPendentes();
+            this.robos = new LinkedHashMap<>(centralSalva.getRobos());
+            this.areas = new ArrayList<>(centralSalva.getAreas());
+            this.missoes = new ArrayList<>(centralSalva.getMissoes());
+            this.missoesPendentes = new LinkedList<>(centralSalva.getMissoesPendentes());
             System.out.println("Dados carregados com sucesso.");
         } catch (FileNotFoundException e) {
             System.out.println("Nenhum salvamento encontrado.");
@@ -52,16 +53,57 @@ public class CentralResgate implements Serializable {
     }
 
     public void registroArea(Scanner in){
-        AreaOperacao area = new AreaOperacao();
-        area.cadastroArea(in);
         try {
-            areas.add(area);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Erro ao cadastrar area.");
+            AreaOperacao area = new AreaOperacao();
+            area.cadastroArea(in);
+            cadastrarArea(area);
+            System.out.println("Area cadastrada com sucesso.");
+        } catch (IllegalArgumentException | NoSuchElementException e) {
+            System.out.println("Erro ao cadastrar area: " + e.getMessage());
         }
     }
 
+    private static void validarArea(AreaOperacao area) {
+        if (area == null || area.getId() == null || area.getId().isBlank() || area.getHorario() == null
+                || area.getTipoTerreno() == null || area.getNivelRisco() == null
+                || !Double.isFinite(area.getAltitude()) || area.getAltitude() < 0) {
+            throw new IllegalArgumentException("Informe uma area com ID, horario, terreno e risco.");
+        }
+    }
 
+    public void cadastrarArea(AreaOperacao area) {
+        validarArea(area);
+        if (areas.stream().anyMatch(a -> a.getId().equals(area.getId()))) throw new IllegalArgumentException("ID de area repetido.");
+        area.bloquearId();
+        areas.add(area);
+    }
+
+    private void validarMissao(Missao missao) {
+        if (missao == null || missao.getId() == null || missao.getId().isBlank() || missao.getTipo() == null
+                || missao.getStatus() == null || !areas.contains(missao.getArea())) {
+            throw new IllegalArgumentException("Informe uma missao com ID, tipo, status e area cadastrada.");
+        }
+        Robo responsavel = missao.getRoboResponsavel();
+        if (responsavel != null && robos.get(responsavel.getId()) != responsavel) throw new IllegalArgumentException("Robo nao cadastrado.");
+    }
+
+    public void registrarMissao(Missao missao) {
+        validarMissao(missao);
+        if (missao.getStatus() != StatusMissao.PENDENTE) throw new IllegalArgumentException("A missao deve estar pendente.");
+        if (missoes.stream().anyMatch(m -> m.getId().equals(missao.getId()))) throw new IllegalArgumentException("ID de missao repetido.");
+        missao.bloquearCadastro();
+        missoes.add(missao);
+        missoesPendentes.add(missao);
+    }
+
+    public void atribuirRoboMissao(String idMissao, String idRobo) {
+        Missao missao = missoes.stream().filter(m -> Objects.equals(idMissao, m.getId())).findFirst().orElse(null);
+        Robo robo = robos.get(idRobo);
+        if (missao == null || robo == null) throw new IllegalArgumentException("Missao ou robo nao encontrado.");
+        missao.atribuirRobo(robo);
+    }
+
+    public void listarMissoesPendentes() { lerMissoesPendentes(); }
 
     public void cadastroMissao(Scanner in){
         Missao missao = new Missao();
@@ -106,6 +148,92 @@ public class CentralResgate implements Serializable {
         }
     }
 
+    public void atualizarNivelRiscoArea(Scanner in) {
+        if (areas.isEmpty()) {
+            System.out.println("Nenhuma area cadastrada.");
+            return;
+        }
+        areas.forEach(a -> System.out.println(a.getId() + " - " + a.getNome() + " - " + a.getNivelRisco()));
+        System.out.println("Digite o ID da area:");
+        if (!in.hasNextLine()) {
+            return;
+        }
+        String id = in.nextLine().trim();
+        AreaOperacao area = areas.stream().filter(a -> id.equals(a.getId())).findFirst().orElse(null);
+        if (area == null) {
+            System.out.println("Area nao encontrada.");
+            return;
+        }
+        System.out.println("Digite o novo nivel de risco: BAIXO, MEDIO ou ALTO");
+        if (!in.hasNextLine()) {
+            return;
+        }
+        try {
+            NivelRisco risco = NivelRisco.valueOf(in.nextLine().trim());
+            area.atualizarNivelRisco(risco);
+            double consumo = switch (risco) {
+                case BAIXO -> 10;
+                case MEDIO -> 25;
+                case ALTO -> 50;
+            };
+            // Atualiza apenas as missoes que ainda nao iniciaram.
+            missoes.stream().filter(m -> m.getArea() == area && m.getStatus() == StatusMissao.PENDENTE)
+                    .forEach(m -> m.setConsumoFixoBateria(consumo));
+            System.out.println("Nivel de risco atualizado com sucesso.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Nivel de risco invalido.");
+        }
+    }
+
+    public void listarRobosDisponiveis() {
+        List<Robo> disponiveis = robos.values().stream()
+                .filter(Robo::verificarDisponibilidade).toList();
+        if (disponiveis.isEmpty()) {
+            System.out.println("Nenhum robo disponivel.");
+            return;
+        }
+        disponiveis.forEach(r -> {
+            r.exibirRobo();
+            System.out.println();
+        });
+    }
+
+    public void listarMissoesEmAndamento() {
+        List<Missao> emAndamento = missoes.stream()
+                .filter(m -> m.getStatus() == StatusMissao.EM_ANDAMENTO).toList();
+        if (emAndamento.isEmpty()) {
+            System.out.println("Nenhuma missao em andamento.");
+            return;
+        }
+        emAndamento.forEach(Missao::exibirMissao);
+    }
+
+    public void realizarManutencaoRobo(Scanner in) {
+        List<Robo> emManutencao = robos.values().stream()
+                .filter(r -> r.getStatus() == StatusRobo.EM_MANUTENCAO || r.precisaManutencao()).toList();
+        if (emManutencao.isEmpty()) {
+            System.out.println("Nenhum robo necessita de manutencao.");
+            return;
+        }
+        emManutencao.forEach(r -> System.out.println(r.getId() + " - " + r.getNome()
+                + " - Desgaste: " + r.getDesgaste() + "% - Bateria: " + r.getBateria() + "%"));
+        System.out.println("Digite o ID do robo para realizar manutencao:");
+        if (!in.hasNextLine()) {
+            return;
+        }
+        Robo robo = robos.get(in.nextLine().trim());
+        if (robo == null) {
+            System.out.println("Robo nao encontrado.");
+            return;
+        }
+        try {
+            robo.realizarManutencao();
+            System.out.println("Manutencao realizada. Status: " + robo.getStatus());
+        } catch (IllegalStateException e) {
+            System.out.println("Erro ao realizar manutencao: " + e.getMessage());
+        }
+    }
+
     public void recarregarRobos() {
         int quantidade = 0;
         for (Robo robo : robos.values()) {
@@ -143,8 +271,60 @@ public class CentralResgate implements Serializable {
             System.out.println("Nenhuma missao pendente.");
             return;
         }
-        for (Missao missao : missoesPendentes) {
+        for (Missao missao : getMissoesPendentes()) {
             missao.exibirMissao();
+        }
+    }
+
+    public void gerarRelatorioGeral() {
+        Relatorio relatorio = new Relatorio(this);
+        System.out.println(relatorio.gerarResumo());
+        try {
+            relatorio.salvarEmArquivo();
+            System.out.println("Relatorio salvo em src/Saves/relatorio_central.txt");
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar relatorio: " + e.getMessage());
+        }
+    }
+
+    public void gerarRelatorioMissao(Scanner in) {
+        if (missoes.isEmpty()) {
+            System.out.println("Nenhuma missao cadastrada.");
+            return;
+        }
+        missoes.forEach(m -> System.out.println(m.getId() + " - " + m.getDescricao() + " - " + m.getStatus()));
+        System.out.println("Digite o ID da missao para gerar o relatorio:");
+        if (!in.hasNextLine()) {
+            return;
+        }
+        String id = in.nextLine().trim();
+        Missao missao = missoes.stream().filter(m -> id.equals(m.getId())).findFirst().orElse(null);
+        if (missao == null) {
+            System.out.println("Missao nao encontrada.");
+            return;
+        }
+        Relatorio relatorio = new Relatorio();
+        System.out.println(relatorio.gerarResumo(missao));
+        try {
+            relatorio.salvarEmArquivo(missao);
+            System.out.println("Relatorio da missao salvo na pasta src/Saves.");
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar relatorio: " + e.getMessage());
+        }
+    }
+
+    public void gerarRelatorioMissoes() {
+        if (missoes.isEmpty()) {
+            System.out.println("Nenhuma missao cadastrada.");
+            return;
+        }
+        Relatorio relatorio = new Relatorio();
+        System.out.println(relatorio.gerarResumo(missoes));
+        try {
+            relatorio.salvarEmArquivo(missoes);
+            System.out.println("Relatorio salvo em src/Saves/relatorios_missoes.txt");
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar relatorio: " + e.getMessage());
         }
     }
 
@@ -168,7 +348,7 @@ public class CentralResgate implements Serializable {
     }
 
     public Map<String, Robo> getRobos() {
-        return robos;
+        return Collections.unmodifiableMap(robos);
     }
 
     public void setRobos(Map<String, Robo> robos) {
@@ -180,11 +360,19 @@ public class CentralResgate implements Serializable {
             validarCadastroRobo(robo, novosRobos);
             novosRobos.put(robo.getId(), robo);
         }
+        for (Missao missao : missoes) {
+            Robo responsavel = missao.getRoboResponsavel();
+            if (responsavel != null && novosRobos.get(responsavel.getId()) != responsavel) {
+                throw new IllegalArgumentException("A colecao precisa preservar os robos vinculados as missoes.");
+            }
+        }
+        novosRobos.values().forEach(Robo::bloquearId);
         this.robos = novosRobos;
     }
 
     public void cadastrarRobo(Robo robo) {
         validarCadastroRobo(robo, robos);
+        robo.bloquearId();
         robos.put(robo.getId(), robo);
     }
 
@@ -204,6 +392,7 @@ public class CentralResgate implements Serializable {
         areas = (List<AreaOperacao>) campos.get("areas", null);
         missoes = (List<Missao>) campos.get("missoes", null);
         missoesPendentes = (Queue<Missao>) campos.get("missoesPendentes", null);
+        if (missoesPendentes == null) missoesPendentes = new LinkedList<>();
         Object colecaoSalva = campos.get("robos", null);
         robos = new LinkedHashMap<>();
         Collection<?> antigos;
@@ -221,6 +410,15 @@ public class CentralResgate implements Serializable {
                 }
                 cadastrarRobo(robo);
             }
+            if (areas == null || missoes == null) throw new IllegalArgumentException("Colecoes ausentes no salvamento.");
+            areas.forEach(AreaOperacao::bloquearId);
+            for (Missao missao : missoes) {
+                missao.bloquearCadastro();
+                if (missao.getStatus() == StatusMissao.EM_ANDAMENTO && missao.getRoboResponsavel() != null) {
+                    missao.getRoboResponsavel().restaurarOperacao(missao);
+                }
+            }
+            missoesPendentes = new LinkedList<>(getMissoesPendentes());
         } catch (IllegalArgumentException e) {
             InvalidObjectException erro = new InvalidObjectException(e.getMessage());
             erro.initCause(e);
@@ -229,27 +427,62 @@ public class CentralResgate implements Serializable {
     }
 
     public List<AreaOperacao> getAreas() {
-        return areas;
+        return Collections.unmodifiableList(areas);
     }
 
     public void setAreas(List<AreaOperacao> areas) {
-        this.areas = areas;
+        if (areas == null) throw new IllegalArgumentException("Informe as areas.");
+        List<AreaOperacao> copia = new ArrayList<>(areas);
+        Set<String> ids = new HashSet<>();
+        for (AreaOperacao area : copia) {
+            validarArea(area);
+            if (!ids.add(area.getId())) throw new IllegalArgumentException("ID de area repetido.");
+        }
+        for (Missao missao : missoes) {
+            if (!copia.contains(missao.getArea())) throw new IllegalArgumentException("Preserve as areas das missoes.");
+        }
+        copia.forEach(AreaOperacao::bloquearId);
+        this.areas = copia;
     }
 
     public List<Missao> getMissoes() {
-        return missoes;
+        return Collections.unmodifiableList(missoes);
     }
 
     public void setMissoes(List<Missao> missoes) {
-        this.missoes = missoes;
+        if (missoes == null) throw new IllegalArgumentException("Informe as missoes.");
+        List<Missao> copia = new ArrayList<>(missoes);
+        Set<String> ids = new HashSet<>();
+        for (Missao missao : copia) {
+            validarMissao(missao);
+            if (!ids.add(missao.getId())) throw new IllegalArgumentException("ID de missao repetido.");
+        }
+        for (Missao existente : this.missoes) {
+            if (existente.getStatus() == StatusMissao.EM_ANDAMENTO && !copia.contains(existente)) {
+                throw new IllegalArgumentException("Uma missao em andamento nao pode ser removida.");
+            }
+        }
+        copia.forEach(Missao::bloquearCadastro);
+        this.missoes = copia;
+        this.missoesPendentes = new LinkedList<>(getMissoesPendentes());
     }
 
     public Queue<Missao> getMissoesPendentes() {
-        return missoesPendentes;
+        Queue<Missao> copia = new LinkedList<>();
+        for (Missao missao : missoesPendentes) {
+            if (missoes.contains(missao) && missao.getStatus() == StatusMissao.PENDENTE && !copia.contains(missao)) copia.add(missao);
+        }
+        for (Missao missao : missoes) {
+            if (missao.getStatus() == StatusMissao.PENDENTE && !copia.contains(missao)) copia.add(missao);
+        }
+        return copia;
     }
 
     public void setMissoesPendentes(Queue<Missao> missoesPendentes) {
-        this.missoesPendentes = missoesPendentes;
+        if (missoesPendentes == null || !new ArrayList<>(missoesPendentes).equals(new ArrayList<>(getMissoesPendentes()))) {
+            throw new IllegalArgumentException("A fila deve corresponder as missoes pendentes cadastradas.");
+        }
+        this.missoesPendentes = new LinkedList<>(missoesPendentes);
     }
 
     public void concluirMissao(Scanner in) {
@@ -399,7 +632,7 @@ public class CentralResgate implements Serializable {
             System.out.println("Nenhuma missao pendente.");
             return;
         }
-        if (robos.values().stream().noneMatch(r -> r.getStatus() == StatusRobo.DISPONIVEL)) {
+        if (robos.values().stream().noneMatch(Robo::verificarDisponibilidade)) {
             System.out.println("Nenhum robo disponivel.");
             return;
         }
@@ -421,7 +654,7 @@ public class CentralResgate implements Serializable {
         }
         System.out.println("Robos disponiveis:");
         robos.values().stream()
-                .filter(r -> r.getStatus() == StatusRobo.DISPONIVEL)
+                .filter(Robo::verificarDisponibilidade)
                 .forEach(r -> System.out.println(r.getId() + " - " + r.getNome() + " - " + r.getBateria() + "% de bateria"));
         System.out.println("Digite o ID do robo:");
         if (!in.hasNextLine()) {
@@ -433,7 +666,12 @@ public class CentralResgate implements Serializable {
             System.out.println("Robo disponivel nao encontrado.");
             return;
         }
-        missao.executar(robo);
+        try {
+            atribuirRoboMissao(idMissao, idRobo);
+            missao.iniciar();
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.out.println("Erro ao iniciar missao: " + e.getMessage());
+        }
         if (missao.getStatus() == StatusMissao.EM_ANDAMENTO && missao.getRoboResponsavel() == robo) {
             missoesPendentes.remove(missao);
             System.out.println("Missao " + missao.getId() + " iniciada com o robo " + robo.getId() + ".");
