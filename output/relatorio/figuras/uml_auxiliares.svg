@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1000" height="770" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1000 770" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1000" height="770"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-770)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="5" y="600" width="225" height="93" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="5" y="653" width="225" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 5,653 L 230,653 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="94.926025390625" y="667" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1334) scale(1,-1)">Main</text>
+			<path d="M 5,638 L 230,638 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="15" y="613" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1226) scale(1,-1)">+ main(...): void {static}</text>
+			<rect x="285" y="600" width="270" height="93" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="285" y="653" width="270" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 285,653 L 555,653 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="394.267822265625" y="667" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1334) scale(1,-1)">Menu</text>
+			<path d="M 285,638 L 555,638 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="295" y="613" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1226) scale(1,-1)">+ MenuStart(): void</text>
+			<rect x="615" y="600" width="380" height="117" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="615" y="677" width="380" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 615,677 L 995,677 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="738.91357421875" y="691" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1382) scale(1,-1)">CentralResgate</text>
+			<path d="M 615,662 L 995,662 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="625" y="637" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1274) scale(1,-1)">+ gerarRelatorioGeral(): void</text>
+			<text x="625" y="613" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1226) scale(1,-1)">+ conversarComRobo(in: Scanner): void</text>
+			<rect x="5" y="330" width="280" height="93" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="5" y="383" width="280" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 5,383 L 285,383 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="114.038330078125" y="397" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,794) scale(1,-1)">Missao</text>
+			<path d="M 5,368 L 285,368 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="15" y="343" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,686) scale(1,-1)">+ iniciar(): void</text>
+			<rect x="350" y="300" width="300" height="116" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="350" y="376" width="300" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 350,376 L 650,376 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="428.591796875" y="390" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,780) scale(1,-1)">ConversasRobos</text>
+			<text x="360" y="351" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,702) scale(1,-1)">- proximaConversa: int {static}</text>
+			<path d="M 350,338 L 650,338 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="360" y="313" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,626) scale(1,-1)">+ conversar(m: Missao): void {static}</text>
+			<rect x="700" y="225" width="295" height="236" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="700" y="421" width="295" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 700,421 L 995,421 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="807.299560546875" y="435" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,870) scale(1,-1)">Relatorio</text>
+			<text x="710" y="396" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,792) scale(1,-1)">- dataGeracao: LocalDateTime</text>
+			<text x="710" y="372" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,744) scale(1,-1)">- totalRobos: int</text>
+			<text x="710" y="348" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,696) scale(1,-1)">- totalMissoes: int</text>
+			<text x="710" y="324" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,648) scale(1,-1)">- missoesConcluidas: int</text>
+			<text x="710" y="300" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,600) scale(1,-1)">- missoesPendentes: int</text>
+			<path d="M 700,287 L 995,287 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="710" y="262" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,524) scale(1,-1)">+ gerarResumo(): String</text>
+			<text x="710" y="238" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,476) scale(1,-1)">+ salvarEmArquivo(): void</text>
+			<rect x="700" y="10" width="295" height="141" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="700" y="111" width="295" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 700,111 L 995,111 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="795.876708984375" y="125" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,250) scale(1,-1)">Salvamento</text>
+			<path d="M 700,96 L 995,96 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="710" y="71" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,142) scale(1,-1)">+ gravarCentral(...): void</text>
+			<text x="710" y="47" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,94) scale(1,-1)">+ carregarCentral(): CentralResgate</text>
+			<text x="710" y="23" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">+ gravarRelatorio(...): void</text>
+			<rect x="5" y="10" width="280" height="117" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="5" y="63" width="280" height="64" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 5,63 L 285,63 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="108.107177734375" y="105" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,210) scale(1,-1)">«abstract»</text>
+			<text x="122.16455078125" y="77" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,154) scale(1,-1)">Robo</text>
+			<path d="M 5,48 L 285,48 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="15" y="23" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">+ enviarMensagem(m: String): void</text>
+			<rect x="350" y="10" width="300" height="93" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="350" y="63" width="300" height="40" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0; fill: rgb(94%,94%,94%); fill-rule: evenodd;"/>
+			<path d="M 350,63 L 650,63 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="414.482421875" y="77" style="font-family: Bold; font-size: 21px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,154) scale(1,-1)">RegistroMensagens</text>
+			<path d="M 350,48 L 650,48 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="360" y="23" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">+ registrar(...): void {static}</text>
+			<polyline points="230 645, 285 645" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd; stroke-dasharray: 7, 5;"/>
+			<polyline points="273.1298 650.3009, 285 645, 273.1298 639.6991" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polyline points="555 645, 615 645" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd;"/>
+			<polyline points="603.1298 650.3009, 615 645, 603.1298 639.6991" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polyline points="850 600, 850 461" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd; stroke-dasharray: 7, 5;"/>
+			<polyline points="855.3009 472.8702, 850 461, 844.6991 472.8702" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polyline points="995 640, 1000 640, 1000 90, 995 90" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd; stroke-dasharray: 7, 5;"/>
+			<polyline points="1006.87 84.69911, 995 90, 1006.87 95.30089" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polyline points="650 600, 600 600, 600 416" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd; stroke-dasharray: 7, 5;"/>
+			<polyline points="605.3009 427.8702, 600 416, 594.6991 427.8702" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polyline points="285 375, 350 375" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd; stroke-dasharray: 7, 5;"/>
+			<polyline points="338.1298 380.3009, 350 375, 338.1298 369.6991" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polyline points="285 70, 350 70" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd; stroke-dasharray: 7, 5;"/>
+			<polyline points="338.1298 75.30089, 350 70, 338.1298 64.69911" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<polyline points="850 225, 850 151" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.5; fill: None; fill-rule: evenodd; stroke-dasharray: 7, 5;"/>
+			<polyline points="855.3009 162.8702, 850 151, 844.6991 162.8702" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 1.4; fill: None; fill-rule: evenodd;"/>
+			<text x="5" y="740" style="font-family: Body; font-size: 17px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1480) scale(1,-1)">Dependências e referência mantida pelo menu</text>
+		</g>
+	</g>
+</svg>

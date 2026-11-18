@@ -26,7 +26,7 @@ public class Menu {
         System.out.println("5 - Cadastrar Robo");
         System.out.println("6 - Cadastrar Area");
         System.out.println("7 - Cadastrar Missao");
-        System.out.println("8 - Iniciar Missao");
+        System.out.println("8 - Iniciar proxima Missao da fila");
         System.out.println("9 - Concluir Missao");
         System.out.println("10 - Cancelar Missao");
         System.out.println("11 - Recarregar Robos");

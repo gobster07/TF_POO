@@ -1,0 +1,6 @@
+Resumo da atuação da central
+Data de geração: 18/11/2026 15:20:30
+Total de robôs: 12
+Total de missões: 11
+Missões concluídas: 1
+Missões pendentes: 8
