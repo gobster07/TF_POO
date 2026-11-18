@@ -18,16 +18,17 @@ public class MenuExecucaoTest {
  static void menu(String entrada){new Menu().MenuStart(new Scanner(entrada));}
  static void pendente(Missao m){check(m.getStatus()==StatusMissao.PENDENTE&&m.getRoboResponsavel()==null&&Menu.centralResgate.getMissoesPendentes().contains(m));}
  public static void main(String[] args){
- Missao m=preparar();menu("8\nM1\nD1\n0\n");check(m.getStatus()==StatusMissao.EM_ANDAMENTO&&m.getRoboResponsavel()==Menu.centralResgate.getRobos().get("D1")&&m.getRoboResponsavel().getStatus()==StatusRobo.EM_MISSAO&&Menu.centralResgate.getMissoesPendentes().isEmpty());
+ Missao m=preparar();menu("8\nD1\n0\n");check(m.getStatus()==StatusMissao.EM_ANDAMENTO&&m.getRoboResponsavel()==Menu.centralResgate.getRobos().get("D1")&&m.getRoboResponsavel().getStatus()==StatusRobo.EM_MISSAO&&Menu.centralResgate.getMissoesPendentes().isEmpty());
  m=preparar();menu("8\nX\n0\n");pendente(m);
- m=preparar();menu("8\nM1\nX\n0\n");pendente(m);
- m=preparar();m.getArea().setHorario(Horario.NOITE);menu("8\nM1\nD1\n0\n");pendente(m);
- m=preparar();Menu.centralResgate.getRobos().get("D1").setBateria(1);menu("8\nM1\nD1\n0\n");pendente(m);
+ m=preparar();menu("8\n\n0\n");pendente(m);
+ m=preparar();m.getArea().setHorario(Horario.NOITE);menu("8\nD1\n0\n");pendente(m);
+ m=preparar();Menu.centralResgate.getRobos().get("D1").setBateria(1);menu("8\nD1\n0\n");pendente(m);
  m=preparar();Menu.centralResgate.getRobos().get("D1").setStatus(StatusRobo.EM_MANUTENCAO);menu("8\n0\n");pendente(m);
  m=preparar();menu("8\n");pendente(m);
- m=preparar();menu("8\nM1\n");pendente(m);
+ m=preparar();menu("8\nD1\n");check(m.getStatus()==StatusMissao.EM_ANDAMENTO&&Menu.centralResgate.getMissoesPendentes().isEmpty());
  m=preparar();TestFixtures.status(m,StatusMissao.CONCLUIDA);menu("8\n0\n");check(m.getStatus()==StatusMissao.CONCLUIDA);
- m=preparar();TestFixtures.robos(Menu.centralResgate).clear();Menu.centralResgate.cadastrarRobo(new RoboTerrestre("R1","Terrestre",100,StatusRobo.DISPONIVEL,Roda.OFFROAD,20,true));menu("8\nM1\nR1\n0\n");check(m.getStatus()==StatusMissao.EM_ANDAMENTO&&Menu.centralResgate.getMissoesPendentes().isEmpty());
+ m=preparar();TestFixtures.robos(Menu.centralResgate).clear();Menu.centralResgate.cadastrarRobo(new RoboTerrestre("R1","Terrestre",100,StatusRobo.DISPONIVEL,Roda.OFFROAD,20,true));menu("8\nR1\n0\n");check(m.getStatus()==StatusMissao.EM_ANDAMENTO&&Menu.centralResgate.getMissoesPendentes().isEmpty());
+ m=preparar();Missao segunda=new Missao();segunda.setId("M0");segunda.setArea(m.getArea());segunda.setTipo(TipoMissao.RECONHECIMENTO);segunda.setPrioridade(100);TestFixtures.missoes(Menu.centralResgate).add(segunda);TestFixtures.pendentes(Menu.centralResgate).add(segunda);menu("8\nD1\n0\n");check(m.getStatus()==StatusMissao.EM_ANDAMENTO&&segunda.getStatus()==StatusMissao.PENDENTE&&segunda.getRoboResponsavel()==null&&Menu.centralResgate.getMissoesPendentes().size()==1&&Menu.centralResgate.getMissoesPendentes().peek()==segunda);
  System.out.println(total+" cenarios de execucao pelo menu passaram.");
  }
 }
