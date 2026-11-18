@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Drone extends Robo implements Comunicavel, Serializable {
     private double altitudeMaxima;
     private boolean thermal;
-    private double consumo = 0;
+    private double consumoCameraPorHora;
 
     public Drone(String id, String nome, int bateria, StatusRobo status, double altitudeMaxima, boolean thermal) {
         super(id, nome, bateria, status);
@@ -55,6 +55,10 @@ public class Drone extends Robo implements Comunicavel, Serializable {
             throw new IllegalArgumentException("Digite 1 para Sim ou 0 para Nao.");
         }
         this.thermal = opcaoThermal == 1;
+        if (thermal) {
+            System.out.println("Consumo da camera por hora:");
+            consumoCameraPorHora = in.nextDouble();
+        }
         in.nextLine();
     }
 
@@ -93,7 +97,21 @@ public class Drone extends Robo implements Comunicavel, Serializable {
             throw new IllegalArgumentException("Drones não podem carregar suprimentos");
         }
     }
-
+    @Override
+    public double calculoBateria(Missao missao, double horas) {
+        double altura = missao.getArea().getAltitude();
+        int multiplicador = 1;
+        int faixas = (int) (altura / 200);
+        for (int i = 0; i < faixas; i++) {
+            multiplicador = multiplicador * 2;
+        }
+        double consumoPorHora = getConsumoPorHora();
+        if (thermal) {
+            consumoPorHora = consumoPorHora + consumoCameraPorHora;
+        }
+        return missao.getConsumoFixoBateria()
+                + consumoPorHora * horas * multiplicador;
+    }
     @Override
     public void enviarMensagem(String mensagem) {
     }

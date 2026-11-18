@@ -31,12 +31,10 @@ public class Missao implements Serializable {
             if (robo.getStatus() != StatusRobo.DISPONIVEL) {
                 throw new IllegalArgumentException("O robo nao esta disponivel.");
             }
+            robo.executaMissao(this);
             if (robo.calculoBateria(this, 0) > robo.getBateria()) {
                 throw new IllegalArgumentException("Bateria insuficiente para iniciar a missao.");
             }
-
-            robo.executaMissao(this);
-
             if (this.status != StatusMissao.CONCLUIDA) {
                 this.roboResponsavel = robo;
                 this.status = StatusMissao.EM_ANDAMENTO;

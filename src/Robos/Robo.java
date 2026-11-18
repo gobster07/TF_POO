@@ -45,7 +45,11 @@ public abstract class Robo implements Comunicavel, Serializable {
         setConsumoPorHora(in.nextDouble());
     }
     public void descontarBateria(double consumo) {
-        int bateriaRestante = getBateria() - (int) consumo;
+        int consumoInteiro = (int) consumo;
+        if (consumo > consumoInteiro) {
+            consumoInteiro++;
+        }
+        int bateriaRestante = getBateria() - consumoInteiro;
         if (bateriaRestante < 0) {
             bateriaRestante = 0;
         }
