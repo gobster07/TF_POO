@@ -41,8 +41,21 @@ public abstract class Robo implements Comunicavel, Serializable {
         this.id = in.nextLine();
         System.out.println("Digite o nome do robo: ");
         this.nome = in.nextLine();
+        System.out.println("Consumo de bateria por hora:");
+        setConsumoPorHora(in.nextDouble());
     }
-    public void calculoBateria(){
+    public double calculoBateria(Missao missao, double horas) {
+        return missao.getConsumoFixoBateria() + consumoPorHora * horas;
+    }
+    public void descontarBateria(double consumo) {
+        int bateriaRestante = getBateria() - (int) consumo;
+        if (bateriaRestante < 0) {
+            bateriaRestante = 0;
+        }
+        setBateria(bateriaRestante);
+        if (bateriaRestante == 0) {
+            setStatus(StatusRobo.SEM_BATERIA);
+        }
     }
     @Override
     public abstract void enviarMensagem(String mensagem);

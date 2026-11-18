@@ -5,6 +5,8 @@ import Enum.*;
 import Robos.Robo;
 import java.io.Serializable;
 import java.util.Scanner;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class Missao implements Serializable {
     private String id;
@@ -15,7 +17,8 @@ public class Missao implements Serializable {
     private StatusMissao status;
     private Robo roboResponsavel;
     private String resultado;
-
+    private double consumoFixoBateria;
+    private LocalDateTime dataInicio;
 
     public void executar(Robo robo) {
         try {
@@ -97,6 +100,10 @@ public class Missao implements Serializable {
             this.tipo = novoTipo;
             this.prioridade = novaPrioridade;
             this.area = novaArea;
+            if (novaArea.getNivelRisco() == NivelRisco.BAIXO) {this.consumoFixoBateria = 10;
+            } else if (novaArea.getNivelRisco() == NivelRisco.MEDIO) {this.consumoFixoBateria = 25;
+            } else if (novaArea.getNivelRisco() == NivelRisco.ALTO) {this.consumoFixoBateria = 50;
+            } else {throw new IllegalArgumentException("A area precisa ter nivel de risco definido.");}
             this.status = StatusMissao.PENDENTE;
             this.roboResponsavel = null;
             this.resultado = null;
@@ -171,5 +178,36 @@ public class Missao implements Serializable {
 
     public void setResultado(String resultado) {
         this.resultado = resultado;
+    }
+    public double getConsumoFixoBateria() {
+        return consumoFixoBateria;
+    }
+
+    public void setConsumoFixoBateria(double consumoFixoBateria) {
+        this.consumoFixoBateria = consumoFixoBateria;
+    }
+    public void encerrar() {
+        if (status != StatusMissao.EM_ANDAMENTO || roboResponsavel == null || dataInicio == null) {
+            throw new IllegalStateException("A missao nao esta em andamento.");
+        }
+        long minutos = Duration.between(dataInicio, LocalDateTime.now()).toMinutes();
+        double horas = minutos / 60.0;
+
+        double consumo = roboResponsavel.calculoBateria(this, horas);
+
+        if (consumo > roboResponsavel.getBateria()) {
+            roboResponsavel.setBateria(0);
+            roboResponsavel.setStatus(StatusRobo.SEM_BATERIA);
+            status = StatusMissao.CANCELADA;
+            resultado = "A bateria teria acabado durante a missao.";
+            System.out.println(resultado);
+        } else {
+            roboResponsavel.descontarBateria(consumo);
+            status = StatusMissao.CONCLUIDA;
+
+            if (roboResponsavel.getBateria() > 0) {
+                roboResponsavel.setStatus(StatusRobo.DISPONIVEL);
+            }
+        }
     }
 }
